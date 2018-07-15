@@ -1,20 +1,7 @@
-// Pensei em trabalharmos como micro-funções separadas pra gente
-// não se confundir. Então ao entrar na página, chamaríamos a loadFunctions
-// e dentro dela vão todas as funções que serão carregadas, eventos etc
-
-<<<<<<< HEAD
-
-
-
-
-
-// Puedes hacer uso de la base de datos a través de la variable `data`
-console.log(data);
-=======
 window.onload = loadFunctions();
+document.getElementById("tabStudents").onclick = showStudentsCards();
 
 function loadFunctions() {
-
 //Estado inicial do conteúdo das tabs e evento para mostrá-las com click
   var principal = document.getElementById('principal');
   var students = document.getElementById('students');
@@ -39,17 +26,61 @@ function showHideTabs(e) {
   var team = document.getElementById('team');
 
   if (selectedTab === 'tab-principal') {
-    principal.style.display = 'block';
+    principal.style.display = 'flex';
     students.style.display = 'none';
     team.style.display = 'none';
   } else if (selectedTab === 'tab-students') {
-    students.style.display = 'block';
+    students.style.display = 'flex';
     principal.style.display = 'none';
     team.style.display = 'none';
   } else if (selectedTab === 'tab-team') {
-    team.style.display = 'block';
+    team.style.display = 'flex';
     principal.style.display = 'none';
     students.style.display = 'none';
   }
 }
->>>>>>> 9b925e676cfa3b0af714832278e4a28c1487a7f9
+
+var studentPhoto
+var studentName
+var studentOffice
+var studentClass
+var studentStatus
+var techMedia
+var softMedia
+
+function showStudentsCards() {
+  for (office in data) {
+    studentOffice = office;
+    for (_class in data[office]) {
+      studentClass = _class;
+      for (i in data[office][_class]['students']) {
+        studentName = data[office][_class]['students'][i]['name'];
+        studentPhoto = data[office][_class]['students'][i]['photo'];
+        studentStatus = data[office][_class]['students'][i]['active'];
+        techMedia = data[office][_class]['students'][i]['sprints'][1]['tech']
+        techMedia = data[office][_class]['students'][i]['sprints'][1]['hse']
+        createStudentCard()
+      }
+    }
+  }
+}
+
+function createStudentCard() {
+  template = `
+    <div class="photoConteiner">
+      <img class='studentPhoto' src='${studentPhoto}' alt=''>
+    </div>
+    <div class='studentInfo'>
+      <p class='name'>${studentName}</p>
+      <p><span class='country'>${studentOffice}</span>/<span class='class'>${studentClass}</span></p>
+      <p>Status: <span class='status'>${studentStatus}</span></p>
+      <br>
+      <p>Media Tech: <span class='techMedia'>${techMedia}</span></p>
+      <p>Media Soft: <span class='softMedia'>${softMedia}</span></p>
+    </div>
+  `
+  var studentCard = document.createElement('div');
+  studentCard.setAttribute('class', 'flexRow studentCard');
+  studentCard.innerHTML = template;
+  document.getElementById('students').appendChild(studentCard);
+}
