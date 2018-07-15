@@ -64,8 +64,7 @@ header {
 .office {
   font-size: 150%;
 }
-
-.class {
+.classMenu {
   font-size: 100%;
 }
 
@@ -128,8 +127,7 @@ div.studentInfo > p {
   line-height: 150%;
   font-size: 90%;
 }
-
-div.studentInfo > p:first-child {
+.name {
   font-size: 100%;
   font-weight: 800;
 }
