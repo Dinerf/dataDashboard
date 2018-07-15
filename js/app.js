@@ -30,15 +30,15 @@ function showHideTabs(e) {
   var team = document.getElementById('team');
 
   if (selectedTab === 'tab-principal') {
-    principal.style.display = 'block';
+    principal.style.display = 'flex';
     students.style.display = 'none';
     team.style.display = 'none';
   } else if (selectedTab === 'tab-students') {
-    students.style.display = 'block';
+    students.style.display = 'flex';
     principal.style.display = 'none';
     team.style.display = 'none';
   } else if (selectedTab === 'tab-team') {
-    team.style.display = 'block';
+    team.style.display = 'flex';
     principal.style.display = 'none';
     students.style.display = 'none';
   }
