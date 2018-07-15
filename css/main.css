@@ -87,6 +87,7 @@ main {
 .tab {
   margin: 0% 3%;
   padding: 0% 2%;
+  cursor: pointer;
 }
 
 .tab:hover, .title:hover {
