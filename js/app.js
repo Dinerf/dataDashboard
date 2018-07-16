@@ -51,6 +51,15 @@ var softMedia;
 function showStudentsCards() {
   for (var office in data) {
     studentOffice = office;
+    if (studentOffice === 'AQP') {
+      studentOffice = 'Arequipa';
+    } else if (studentOffice === 'CDMX') {
+      studentOffice = 'Cidade do México';
+    } else if (studentOffice === 'LIM') {
+      studentOffice = 'Lima';
+    } else if (studentOffice === 'SCL') {
+      studentOffice = 'Santiago do Chile';
+    }
     for (var classes in data[office]) {
       studentClass = classes;
       for (var i in data[office][classes]['students']) {
@@ -64,16 +73,20 @@ function showStudentsCards() {
         var sprint = data[office][classes]['students'][i]['sprints'];
         var sprintLength = sprint.length;
         techMedia = 0;
-        for (var j = 0; j < sprintLength; j++) {
-          techMedia += sprint[j]['score']['tech'];
-        }
-        techMedia = parseInt(techMedia/sprintLength);
+        if (sprintLength !== 0) {
+          for (var j = 0; j < sprintLength; j++) {
+            techMedia += sprint[j]['score']['tech'];
+          }
+          techMedia = parseInt(techMedia/sprintLength);
 
-        softMedia = 0;
-        for (var j = 0; j < sprintLength; j++) {
-          softMedia += sprint[j]['score']['hse'];
+          softMedia = 0;
+          for (var j = 0; j < sprintLength; j++) {
+            softMedia += sprint[j]['score']['hse'];
+          }
+          softMedia = parseInt(softMedia/sprintLength);
+        } else {
+          softMedia = 0;
         }
-        softMedia = parseInt(softMedia/sprintLength);
         createStudentCard();
       }
     }
