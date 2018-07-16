@@ -149,17 +149,18 @@ div.sub-column > p {
 }
 
 #students {
-  padding: 3% 0;
+  padding: 0% 0;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .studentCard {
-  width: 30%;
+  width: 29%;
   height: 140px;
   border: 1px solid lightgray;
   border-radius: 10px;
   padding: 1%;
-  margin: 1% 0;
+  margin: 1%;
   justify-content: flex-start;
 }
 
