@@ -202,7 +202,14 @@ ul li#selectedBranch, ul li#selectedClass {
 
 ul li#selectedClass {
   width: 80px;
-  line-height: 320%;
+}
+
+ul li#selectedBranch {
+  line-height: 100%;
+}
+
+ul li#selectedBranch > span {
+  font-size: 100%;
 }
 
 #dropdownBranch, #dropdownClass {
@@ -215,7 +222,7 @@ header ul li {
   position: relative;
   display: none;
   text-align: center;
-  line-height: 200%;
+  line-height: 300%;
 }
 
 header li ul {
@@ -225,11 +232,11 @@ header li ul {
   display: none;
 }
 
-header li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, header li#selectedClass:hover ul#dropdownClass, header ul#dropdownClass li:hover ul.dropSprint {
+li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass, ul#dropdownClass li:hover ul.dropSprint {
   display: block;
   width: 100%;
   height: 50px;
-  background-color: lightgray;
+  background-color: rgb(240, 231, 231);
 }
 
 header ul li:hover {
@@ -237,7 +244,7 @@ header ul li:hover {
 }
 
 #ulSelectedBranch, #ulSelectedClass {
-  width: fit-content;
+  width: auto;
 }
 
 ul#dropdownBranch {

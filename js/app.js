@@ -16,7 +16,7 @@ function loadFunctions() {
   }
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
-  // document.getElementById('dropdownBranch').onclick = dropdownBranch();
+  document.getElementById('dropdownBranch').addEventListener("click", dropdownBranch);
   // document.getElementById('dropdownClass').onclick = dropdownClass();
 }
 
@@ -100,17 +100,22 @@ var happyStudents;
 var jediMasterScore;
 var mentorsScore;
 
-// function dropdownBranch(event) {
-//   theTarget = event.target.id;
-//   console.log(theTarget);
-//   theTarget === 'aqp' ? dropdownBranch = 'AQP' : dropdownBranch = "";
-//   theTarget === 'cdmx' ? dropdownBranch = 'CMDX' : dropdownBranch = "";
-//   theTarget === 'lim' ? dropdownBranch = 'LIM' : dropdownBranch = "";
-//   theTarget === 'scl' ? dropdownBranch = 'SCL' : dropdownBranch = "";
-//   theTarget === 'spa' ? dropdownBranch = 'SPA' : dropdownBranch = "";
-//
-//   console.log('x');
-// }
+function dropdownBranch(event) {
+  var theTarget = event.target.id;
+  if (theTarget == 'aqp') {
+    dropdownBranch = 'AQP';
+  } else if (theTarget == 'cdmx') {
+    dropdownBranch = 'CDMX';
+  } else if (theTarget == 'lim') {
+    dropdownBranch = 'LIM';
+  } else if (theTarget == 'scl') {
+    dropdownBranch = 'SCL';
+  } else if (theTarget == 'spa') {
+    dropdownBranch = 'SPA';
+  }
+  document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
+  return dropdownBranch;
+}
 
 //Em andamento
 function getBranchData() {
@@ -640,19 +645,16 @@ function showStudentsCards() {
         var sprint = data[office][classes]['students'][i]['sprints'];
         var sprintLength = sprint.length;
         techMedia = 0;
+        softMedia = 0;
         if (sprintLength !== 0) {
           for (var j = 0; j < sprintLength; j++) {
             techMedia += sprint[j]['score']['tech'];
           }
           techMedia = parseInt(techMedia/sprintLength);
-
-          softMedia = 0;
           for (var j = 0; j < sprintLength; j++) {
             softMedia += sprint[j]['score']['hse'];
           }
           softMedia = parseInt(softMedia/sprintLength);
-        } else {
-          softMedia = 0;
         }
         createStudentCard();
       }
