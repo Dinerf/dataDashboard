@@ -281,53 +281,55 @@ function getClassData() {
   totalAboveAvgSoft = aboveAvgSoft + inAvgSoft;
   numTotalAboveAvgSoft = numAboveAvgSoft + numInAvgSoft;
 
-  console.log('........................................................');
-  console.log('........................................................');
-  console.log('SE A PESSOA SELECIONAR SEDE>TURMA:');
-  console.log('NÚMERO de estudantes: ' + numOfStudents);
-  console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
-  console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
-  console.log('........................................................');
-  console.log('MÉDIA GERAL da turma: ' + classAvgScore);
-  console.log('NÚMERO de alunas que SUPERA a meta em MÉDIA GERAL: ' + numAboveAvg);
-  console.log('NÚMERO de alunas que CUMPRE a meta em MÉDIA GERAL: ' + numInAvg);
-  console.log('NÚMERO de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + numUnderAvg);
-  console.log('% de alunas que SUPERA a meta em MÉDIA GERAL: ' + aboveAvg);
-  console.log('% de alunas que CUMPRE a meta em MÉDIA GERAL: ' + inAvg);
-  console.log('% de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + underAvg);
-  console.log('% de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + totalAboveAvg);
-  console.log('NUMERO de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + numTotalAboveAvg);
-  console.log('........................................................');
-  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore);
-  console.log('NÚMERO de alunas que SUPERA a meta em TECH SKILLS: ' + numAboveAvgTech);
-  console.log('NÚMERO de alunas que CUMPRE a meta em TECH SKILLS: ' + numInAvgTech);
-  console.log('NÚMERO de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + numUnderAvgTech);
-  console.log('% de alunas que SUPERA a meta em TECH SKILLS: ' + aboveAvgTech);
-  console.log('% de alunas que CUMPRE a meta em TECH SKILLS: ' + inAvgTech);
-  console.log('% de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + underAvgTech);
-  console.log('% de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + totalAboveAvgTech);
-  console.log('NÚMERO de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + numTotalAboveAvgTech);
-  console.log('........................................................');
-  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore);
-  console.log('NÚMERO de alunas que SUPERA a meta em SOFT SKILLS: ' + numAboveAvgSoft);
-  console.log('NÚMERO de alunas que CUMPRE a meta em SOFT SKILLS: ' + numInAvgSoft);
-  console.log('NÚMERO de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + numUnderAvgSoft);
-  console.log('% de alunas que SUPERA a meta em SOFT SKILLS: ' + aboveAvgSoft);
-  console.log('% de alunas que CUMPRE a meta em SOFT SKILLS: ' + inAvgSoft);
-  console.log('% de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + underAvgSoft);
-  console.log('% de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + totalAboveAvgSoft);
-  console.log('NÚMERO de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + numTotalAboveAvgSoft);
-  console.log('........................................................');
-  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents);
-  console.log('% de NPS da Laboratória: ' + npsScore);
-  console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
-  console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
+  // console.log('........................................................');
+  // console.log('........................................................');
+  // console.log('SE A PESSOA SELECIONAR SEDE>TURMA:');
+  // console.log('NÚMERO de estudantes: ' + numOfStudents);
+  // console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
+  // console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
+  // console.log('........................................................');
+  // console.log('MÉDIA GERAL da turma: ' + classAvgScore);
+  // console.log('NÚMERO de alunas que SUPERA a meta em MÉDIA GERAL: ' + numAboveAvg);
+  // console.log('NÚMERO de alunas que CUMPRE a meta em MÉDIA GERAL: ' + numInAvg);
+  // console.log('NÚMERO de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + numUnderAvg);
+  // console.log('% de alunas que SUPERA a meta em MÉDIA GERAL: ' + aboveAvg);
+  // console.log('% de alunas que CUMPRE a meta em MÉDIA GERAL: ' + inAvg);
+  // console.log('% de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + underAvg);
+  // console.log('% de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + totalAboveAvg);
+  // console.log('NUMERO de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + numTotalAboveAvg);
+  // console.log('........................................................');
+  // console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore);
+  // console.log('NÚMERO de alunas que SUPERA a meta em TECH SKILLS: ' + numAboveAvgTech);
+  // console.log('NÚMERO de alunas que CUMPRE a meta em TECH SKILLS: ' + numInAvgTech);
+  // console.log('NÚMERO de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + numUnderAvgTech);
+  // console.log('% de alunas que SUPERA a meta em TECH SKILLS: ' + aboveAvgTech);
+  // console.log('% de alunas que CUMPRE a meta em TECH SKILLS: ' + inAvgTech);
+  // console.log('% de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + underAvgTech);
+  // console.log('% de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + totalAboveAvgTech);
+  // console.log('NÚMERO de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + numTotalAboveAvgTech);
+  // console.log('........................................................');
+  // console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore);
+  // console.log('NÚMERO de alunas que SUPERA a meta em SOFT SKILLS: ' + numAboveAvgSoft);
+  // console.log('NÚMERO de alunas que CUMPRE a meta em SOFT SKILLS: ' + numInAvgSoft);
+  // console.log('NÚMERO de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + numUnderAvgSoft);
+  // console.log('% de alunas que SUPERA a meta em SOFT SKILLS: ' + aboveAvgSoft);
+  // console.log('% de alunas que CUMPRE a meta em SOFT SKILLS: ' + inAvgSoft);
+  // console.log('% de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + underAvgSoft);
+  // console.log('% de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + totalAboveAvgSoft);
+  // console.log('NÚMERO de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + numTotalAboveAvgSoft);
+  // console.log('........................................................');
+  // console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents);
+  // console.log('% de NPS da Laboratória: ' + npsScore);
+  // console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
+  // console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
 
 //DINE, ESSA FUNÇÃO AQUI ESTÁ PRONTA, JÁ DÁ PRA INSERIR ELA NO HTML E USAR ELA NO DROPDOWN
 // QUE SELECIONE TUDO, OU SEJA, SEDE>TURMA>SPRINT. TESTEI AQUI DE SUBSTITUIR AS VARIÁVEIS
 // 'dropdownBranch', 'dropdownClass' E 'dropdownSprint' POR QUALQUER COMBINAÇÃO DO DATA.JS
 //E FUNCIONOU, PEGOU OS DADOS CORRETAMENTE... ENTÃO SUCESSO!
+//AH, PRA FACILITAR DE COLOCAR NO HTML, ORGANIZEI O CONSOLE.LOG DE TODAS AS VARIÁVEIS E A QUE
+//DADO ELA SE REFERE
 
 function getSprintData() {
   numOfStudents = 0;
