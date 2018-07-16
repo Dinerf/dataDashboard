@@ -1,8 +1,4 @@
 window.onload = loadFunctions();
-document.getElementById('tabStudents').onclick = showStudentsCards();
-document.getElementById('dropdownBranch').addEventListener("click", dropdownBranch);
-document.getElementById('dropdownClass').onclick = dropdownClass();
-
 
 function loadFunctions() {
 //Estado inicial do conteúdo das tabs e evento para mostrá-las com click
@@ -19,6 +15,9 @@ function loadFunctions() {
     tabs[i].addEventListener('click', showHideTabs);
   }
 
+  document.getElementById('tabStudents').onclick = showStudentsCards();
+  document.getElementById('dropdownBranch').addEventListener("click", dropdownBranch);
+  // document.getElementById('dropdownClass').onclick = dropdownClass();
 }
 
 //Função que mostra ou esconde o conteúdo das tabs
@@ -64,6 +63,8 @@ var rating;
 var numOfStudents;
 var numOfActiveStudents;
 var numOfInactiveStudents;
+var perctOfActiveStudents;
+var perctOfInactiveStudents;
 //variáveis para cálculo de notas e médias de tech points e solft skills
 var techPoints;
 var techPointsSum;
@@ -74,42 +75,47 @@ var sprtAttendeesSoftPts;
 var classAvgScore;
 var classTechAvgScore;
 var classSoftAvgScore;
-//variáveis para cálculo de supera/cumpre/no-cumpre geral da turma
+//variáveis para cálculo de média geral da turma
 var aboveAvg;
-var inAvg;
 var underAvg;
 var aboveAvgSum;
-var inAvgSum;
 var underAvgSum;
 var numAboveAvg;
-var numInAvg;
 var numUnderAvg;
-var totalAboveAvg;
-var numTotalAboveAvg;
-//variáveis para cálculo de supera/cumpre/no-cumpre em tech skills
+//variáveis para cálculo de média em tech skills
 var aboveAvgTech;
-var inAvgTech;
 var underAvgTech;
 var numAboveAvgTech;
-var numInAvgTech;
 var numUnderAvgTech;
-var totalAboveAvgTech;
-var numTotalAboveAvgTech;
-//variáveis para cálculo de supera/cumpre/no-cumpre em soft skills
+//variáveis para cálculo de média em soft skills
 var aboveAvgSoft;
-var inAvgSoft;
 var underAvgSoft;
 var numAboveAvgSoft;
-var numInAvgSoft;
 var numUnderAvgSoft;
-var totalAboveAvgSoft;
-var numTotalAboveAvgSoft;
 //variáveis para obter desempenho da equipe Laboratória
 var npsScore;
+var exceedsExpectations;
+var meetsExpectations;
 var happyStudents;
 var jediMasterScore;
 var mentorsScore;
 
+function dropdownBranch(event) {
+  var theTarget = event.target.id;
+  if (theTarget == 'aqp') {
+    dropdownBranch = 'AQP';
+  } else if (theTarget == 'cdmx') {
+    dropdownBranch = 'CDMX';
+  } else if (theTarget == 'lim') {
+    dropdownBranch = 'LIM';
+  } else if (theTarget == 'scl') {
+    dropdownBranch = 'SCL';
+  } else if (theTarget == 'spa') {
+    dropdownBranch = 'SPA';
+  }
+  document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
+  return dropdownBranch;
+}
 
 //Em andamento
 function getBranchData() {
@@ -140,21 +146,152 @@ function getBranchData() {
   }
 }
 
-function dropdownBranch(event) {
-  var theTarget = event.target.id;
-  if (theTarget == 'aqp') {
-    dropdownBranch = 'AQP';
-  } else if (theTarget == 'cdmx') {
-    dropdownBranch = 'CDMX';
-  } else if (theTarget == 'lim') {
-    dropdownBranch = 'LIM';
-  } else if (theTarget == 'scl') {
-    dropdownBranch = 'SCL';
-  } else if (theTarget == 'spa') {
-    dropdownBranch = 'SPA';
+function getClassData() {
+  numOfStudents = 0;
+  numOfActiveStudents = 0;
+  numOfInactiveStudents = 0;
+  techPointsSum = 0;
+  softPointsSum = 0;
+  numOfScores = 0;
+  sprtAttendeesTechPts = 0;
+  sprtAttendeesSoftPts = 0;
+  numAboveAvgTech = 0;
+  numUnderAvgTech = 0;
+  numAboveAvgSoft = 0;
+  numUnderAvgSoft = 0;
+  sprint = 0;
+
+  //definir branch como o valor selecionado no dropdown de sede
+  dropdownBranch = 'AQP';
+  //definir branchClass como o valor selecionado no dropdown de turma
+  dropdownClass = '2016-2';
+
+  for (var b in data) {
+    branch = b;
+    for (var c in data[branch]) {
+      branchClass = c;
+
+      for (var s in data[branch][branchClass]['students']) {
+        student = data[branch][branchClass]['students'][s];
+
+        for (sp in student['sprints']) {
+          //pega o número de estudantes desse sprint
+          if (branch === dropdownBranch && branchClass === dropdownClass && student['sprints'][sp]['number'] === dropdownSprint) {
+            numOfStudents += 1;
+
+            //calcula o número de estudantes ativas e inativas desse sprint
+            if (student['active'] === true) {
+              numOfActiveStudents += 1;
+            } else if (student['active'] === false) {
+              numOfInactiveStudents += 1;
+            }
+
+            //Pega dados para calcular a média de tech points da turma
+            techPoints = student['sprints'][sp]['score']['tech'];
+            techPointsSum += techPoints;
+            sprtAttendeesTechPts += 1;
+
+            //Cálculo do desempenho (supera / cumple / no-cumple) em Tech Skills por número de aluna
+            if (techPoints >= 1260) {
+              numAboveAvgTech += 1;
+            } else if (techPoints <= 1259) {
+              numUnderAvgTech += 1;
+            }
+
+            //Pega dados para calcular a média de soft points da turma
+            softPoints = student['sprints'][sp]['score']['hse'];
+            softPointsSum += softPoints;
+            sprtAttendeesSoftPts += 1;
+
+            //Cálculo do desempenho (supera / cumple / no-cumple) em SoftSkills por número de aluna
+            if (softPoints >= 840) {
+              numAboveAvgSoft += 1;
+            } else if (softPoints <= 839) {
+              numUnderAvgSoft += 1;
+            }
+          }
+        }
+      }
+
+      //Desempenho da turma entre supera-cumple-no-cumple em porcentagem
+      rating = data[dropdownBranch][dropdownClass]['ratings'];
+      for (sp in rating) {
+        if (branch === dropdownBranch && branchClass === dropdownClass && student['sprints'][sp]['number'] === dropdownSprint) {
+          exceedsExpectations = rating[sp]['student']['supera'];
+          meetsExpectations = rating[sp]['student']['cumple'];
+
+          //Pegando dados de avaliação da Laboratória
+          npsScore = happyStudents - rating[sp]['nps']['detractors'];
+          jediMasterScore = rating[sp]['jedi'];
+          mentorsScore = rating[sp]['teacher'];
+        }
+      }
+    }
   }
-  document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
-  return dropdownBranch;
+
+  //Cálculo da porcentagem das alunas ativas e inativas
+  perctOfActiveStudents = Math.round((numOfActiveStudents * 100) / numOfStudents);
+  perctOfInactiveStudents = Math.round((numOfInactiveStudents * 100) / numOfStudents);
+
+  //Cálculo da média de tech skills da turma
+  classTechAvgScore = Math.round(((techPointsSum / sprtAttendeesTechPts) / 1800) * 100);
+
+  //Cálculo da média de soft skills da turma
+  classSoftAvgScore = Math.round(((softPointsSum / sprtAttendeesSoftPts) / 1200) * 100);
+
+  //Cálculo da média geral da turma:
+  classAvgScore = Math.round((classTechAvgScore + classSoftAvgScore) / 2);
+
+  //Cálculo de alunas acima / abaixo da média em TechSkills em porcentagem
+  aboveAvgTech = Math.round((numAboveAvgTech * 100) / sprtAttendeesTechPts);
+  underAvgTech = Math.round((numUnderAvgTech * 100) / sprtAttendeesTechPts);
+
+  //Cálculo de alunas acima / abaixo da média em Softskills em porcentagem
+  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / sprtAttendeesSoftPts);
+  underAvgSoft = Math.round((numUnderAvgSoft * 100) / sprtAttendeesSoftPts);
+
+  //Cálculo de número de alunas acima / abaixo da média
+  numAboveAvg = Math.round((numAboveAvgTech + numAboveAvgSoft) / 2);
+  numUnderAvg = Math.round((numUnderAvgTech + numUnderAvgSoft) / 2);
+
+  //Cálculo de porcentagem de alunas acima / abaixo da média
+  aboveAvg = Math.round((aboveAvgTech + aboveAvgSoft) / 2);
+  underAvg = Math.round((underAvgTech + underAvgSoft) / 2);
+
+  //Porcentagem das alunas satisfeitas com a Laboratoria_RGB_logo
+  happyStudents = exceedsExpectations + meetsExpectations;
+
+  console.log('........................................................');
+  console.log('........................................................');
+  console.log('SE A PESSOA SELECIONAR SEDE>TURMA>SPRINT:');
+  console.log('NÚMERO de estudantes: ' + numOfStudents);
+  console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
+  console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
+  console.log('% das estudantes ATIVAS: ' + perctOfActiveStudents + '%');
+  console.log('% das estudantes INATIVAS: ' + perctOfInactiveStudents + '%');
+  console.log('........................................................');
+  console.log('MÉDIA GERAL da turma: ' + classAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da MÉDIA GERAL: ' + numAboveAvg);
+  console.log('NÚMERO de alunas ABAIXO da MÉDIA GERAL: ' + numUnderAvg);
+  console.log('% de alunas ACIMA da MÉDIA GERAL: ' + aboveAvg + '%');
+  console.log('% de alunas ABAIXO da MÉDIA GERAL: ' + underAvg + '%');
+  console.log('........................................................');
+  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da média em TECH SKILLS: ' + numAboveAvgTech);
+  console.log('NÚMERO de alunas ABAIXO da média em TECH SKILLS: ' + numUnderAvgTech);
+  console.log('% de alunas ACIMA da média em TECH SKILLS: ' + aboveAvgTech + '%');
+  console.log('% de alunas ABAIXO da média em TECH SKILLS: ' + underAvgTech + '%');
+  console.log('........................................................');
+  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da média em SOFT SKILLS: ' + numAboveAvgSoft);
+  console.log('NÚMERO de alunas ABAIXO da média em SOFT SKILLS: ' + numUnderAvgSoft);
+  console.log('% de alunas ACIMA da média em SOFT SKILLS: ' + aboveAvgSoft + '%');
+  console.log('% de alunas ABAIXO da média em SOFT SKILLS: ' + underAvgSoft + '%');
+  console.log('........................................................');
+  console.log('% de NPS da Laboratória: ' + npsScore + '%');
+  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents + '%');
+  console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
+  console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
 
 function dropdownClass() {
@@ -165,6 +302,7 @@ function getClassData() {
   numOfStudents = 0;
   numOfActiveStudents = 0;
   numOfInactiveStudents = 0;
+
   techPointsSum = 0;
   softPointsSum = 0;
   numOfScores = 0;
@@ -184,7 +322,7 @@ function getClassData() {
   //definir branch como o valor selecionado no dropdown de sede
   dropdownBranch = 'AQP';
   //definir branchClass como o valor selecionado no dropdown de turma
-  dropdownClass = '2016-2';
+  dropdownClass = '2017-1';
 
   for (var b in data) {
     branch = b;
@@ -217,10 +355,8 @@ function getClassData() {
 //NÃO 15 POIS FORAM 4 sprints
 //--------------------------------------------------------------------------------------------------
             //Cálculo do desempenho (supera / cumple / no-cumple) em Tech Skills por número de aluna
-            if (techPoints >= 1440) {
+            if (techPoints >= 1260) {
               numAboveAvgTech += 1;
-            } else if (techPoints >= 1260 && techPoints <= 1439) {
-              numInAvgTech += 1;
             } else if (techPoints <= 1259) {
               numUnderAvgTech += 1;
             }
@@ -231,10 +367,8 @@ function getClassData() {
             sprtAttendeesSoftPts += 1;
 
             //Cálculo do desempenho (supera / cumple / no-cumple) em SoftSkills por número de aluna
-            if (softPoints >= 960) {
+            if (softPoints >= 840) {
               numAboveAvgSoft += 1;
-            } else if (softPoints >= 840 && softPoints <= 959) {
-              numInAvgSoft += 1;
             } else if (softPoints <= 839) {
               numUnderAvgSoft += 1;
             }
@@ -246,12 +380,10 @@ function getClassData() {
       rating = data[dropdownBranch][dropdownClass]['ratings'];
       for (sp in rating) {
         if (branch === dropdownBranch && branchClass === dropdownClass) {
-          aboveAvgSum += rating[sp]['student']['supera'];
-          inAvgSum += rating[sp]['student']['cumple'];
-          underAvgSum += rating[sp]['student']['no-cumple'];
+          exceedsExpectations = rating[sp]['student']['supera'];
+          meetsExpectations = rating[sp]['student']['cumple'];
 
           //Pegando dados de avaliação da Laboratória
-          happyStudents = rating[sp]['nps']['promoters'];
           npsScore = happyStudents - rating[sp]['nps']['detractors'];
           jediMasterScore = rating[sp]['jedi'];
           mentorsScore = rating[sp]['teacher'];
@@ -263,88 +395,69 @@ function getClassData() {
     }
   }
 
+  //Cálculo da porcentagem das alunas ativas e inativas
+  perctOfActiveStudents = Math.round((numOfActiveStudents * 100) / numOfStudents);
+  perctOfInactiveStudents = Math.round((numOfInactiveStudents * 100) / numOfStudents);
+
   //Cálculo da média de tech skills da turma
-  classTechAvgScore = Math.round((((techPointsSum / sprtAttendeesTechPts) / 1800) * 10) * 10) / 10;
+  classTechAvgScore = Math.round(((techPointsSum / sprtAttendeesTechPts) / 1800) * 100);
 
   //Cálculo da média de soft skills da turma
-  classSoftAvgScore = Math.round((((softPointsSum / sprtAttendeesSoftPts) / 1200) * 10) * 10) / 10;
+  classSoftAvgScore = Math.round(((softPointsSum / sprtAttendeesSoftPts) / 1200) * 100);
 
   //Cálculo da média geral da turma:
-  classAvgScore = Math.round(((classTechAvgScore + classSoftAvgScore) / 2) * 10) / 10;
+  classAvgScore = Math.round((classTechAvgScore + classSoftAvgScore) / 2);
 
-  //Cálculo do número de alunas que superaram / cumpriram / não cumpriram a meta em todos os sprints em média Geral
-  aboveAvg = Math.round(aboveAvgSum / (aboveAvgSum + inAvgSum + underAvgSum) * 100);
-  inAvg = Math.round(inAvgSum / (aboveAvgSum + inAvgSum + underAvgSum) * 100);
-  underAvg = Math.round(underAvgSum / (aboveAvgSum + inAvgSum + underAvgSum) * 100);
-
-  //Cálculo de número de alunas (supera / cumple / no-cumple)
-  numAboveAvg = Math.round(((sprtAttendeesTechPts * aboveAvg) / sprint) / 100);
-  numInAvg = Math.round(((sprtAttendeesTechPts * inAvg) / sprint) / 100);
-  numUnderAvg = Math.round(((sprtAttendeesTechPts * underAvg) / sprint) / 100);
-
-  //Soma de todas as alunas com média geral acima de 70%
-  totalAboveAvg = aboveAvg + inAvg;
-  numTotalAboveAvg = numAboveAvg + numInAvg;
-
-  //Cálculo do desempenho (supera / cumpre / no-cumpre) de alunas em TechSkills em porcentagem
+  //Cálculo de alunas acima / abaixo da média em TechSkills em porcentagem
   aboveAvgTech = Math.round((numAboveAvgTech * 100) / sprtAttendeesTechPts);
-  inAvgTech = Math.round((numInAvgTech * 100) / sprtAttendeesTechPts);
   underAvgTech = Math.round((numUnderAvgTech * 100) / sprtAttendeesTechPts);
 
-  //Soma de todas as alunas com média geral acima de 70% em TechSkills
-  totalAboveAvgTech = aboveAvgTech + inAvgTech;
-  numTotalAboveAvgTech = numAboveAvgTech + numInAvgTech;
-
-  //Cálculo do desempenho (supera / cumpre / no-cumpre) de alunas em Softskills em porcentagem
+  //Cálculo de alunas acima / abaixo da média em Softskills em porcentagem
   aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / sprtAttendeesSoftPts);
-  inAvgSoft = Math.round((numInAvgSoft * 100) / sprtAttendeesSoftPts);
   underAvgSoft = Math.round((numUnderAvgSoft * 100) / sprtAttendeesSoftPts);
 
-  //Soma de todas as alunas com média geral acima de 70% em Softskills
-  totalAboveAvgSoft = aboveAvgSoft + inAvgSoft;
-  numTotalAboveAvgSoft = numAboveAvgSoft + numInAvgSoft;
+  //Cálculo de número de alunas acima / abaixo da média
+  numAboveAvg = Math.round((numAboveAvgTech + numAboveAvgSoft) / 2);
+  numUnderAvg = Math.round((numUnderAvgTech + numUnderAvgSoft) / 2);
 
-  // console.log('........................................................');
-  // console.log('........................................................');
-  // console.log('SE A PESSOA SELECIONAR SEDE>TURMA:');
-  // console.log('NÚMERO de estudantes: ' + numOfStudents);
-  // console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
-  // console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
-  // console.log('........................................................');
-  // console.log('MÉDIA GERAL da turma: ' + classAvgScore);
-  // console.log('NÚMERO de alunas que SUPERA a meta em MÉDIA GERAL: ' + numAboveAvg);
-  // console.log('NÚMERO de alunas que CUMPRE a meta em MÉDIA GERAL: ' + numInAvg);
-  // console.log('NÚMERO de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + numUnderAvg);
-  // console.log('% de alunas que SUPERA a meta em MÉDIA GERAL: ' + aboveAvg);
-  // console.log('% de alunas que CUMPRE a meta em MÉDIA GERAL: ' + inAvg);
-  // console.log('% de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + underAvg);
-  // console.log('% de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + totalAboveAvg);
-  // console.log('NUMERO de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + numTotalAboveAvg);
-  // console.log('........................................................');
-  // console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore);
-  // console.log('NÚMERO de alunas que SUPERA a meta em TECH SKILLS: ' + numAboveAvgTech);
-  // console.log('NÚMERO de alunas que CUMPRE a meta em TECH SKILLS: ' + numInAvgTech);
-  // console.log('NÚMERO de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + numUnderAvgTech);
-  // console.log('% de alunas que SUPERA a meta em TECH SKILLS: ' + aboveAvgTech);
-  // console.log('% de alunas que CUMPRE a meta em TECH SKILLS: ' + inAvgTech);
-  // console.log('% de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + underAvgTech);
-  // console.log('% de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + totalAboveAvgTech);
-  // console.log('NÚMERO de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + numTotalAboveAvgTech);
-  // console.log('........................................................');
-  // console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore);
-  // console.log('NÚMERO de alunas que SUPERA a meta em SOFT SKILLS: ' + numAboveAvgSoft);
-  // console.log('NÚMERO de alunas que CUMPRE a meta em SOFT SKILLS: ' + numInAvgSoft);
-  // console.log('NÚMERO de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + numUnderAvgSoft);
-  // console.log('% de alunas que SUPERA a meta em SOFT SKILLS: ' + aboveAvgSoft);
-  // console.log('% de alunas que CUMPRE a meta em SOFT SKILLS: ' + inAvgSoft);
-  // console.log('% de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + underAvgSoft);
-  // console.log('% de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + totalAboveAvgSoft);
-  // console.log('NÚMERO de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + numTotalAboveAvgSoft);
-  // console.log('........................................................');
-  // console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents);
-  // console.log('% de NPS da Laboratória: ' + npsScore);
-  // console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
-  // console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
+  //Cálculo de porcentagem de alunas acima / abaixo da média
+  aboveAvg = Math.round((aboveAvgTech + aboveAvgSoft) / 2);
+  underAvg = Math.round((underAvgTech + underAvgSoft) / 2);
+
+  //Porcentagem das alunas satisfeitas com a Laboratoria_RGB_logo
+  happyStudents = exceedsExpectations + meetsExpectations;
+
+  console.log('........................................................');
+  console.log('........................................................');
+  console.log('SE A PESSOA SELECIONAR SEDE>TURMA:');
+  console.log('NÚMERO de estudantes: ' + numOfStudents);
+  console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
+  console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
+  console.log('% das estudantes ATIVAS: ' + perctOfActiveStudents + '%');
+  console.log('% das estudantes INATIVAS: ' + perctOfInactiveStudents + '%');
+  console.log('........................................................');
+  console.log('MÉDIA GERAL da turma: ' + classAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da MÉDIA GERAL: ' + numAboveAvg);
+  console.log('NÚMERO de alunas ABAIXO da MÉDIA GERAL: ' + numUnderAvg);
+  console.log('% de alunas ACIMA da MÉDIA GERAL: ' + aboveAvg + '%');
+  console.log('% de alunas ABAIXO da MÉDIA GERAL: ' + underAvg + '%');
+  console.log('........................................................');
+  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da média em TECH SKILLS: ' + numAboveAvgTech);
+  console.log('NÚMERO de alunas ABAIXO da média em TECH SKILLS: ' + numUnderAvgTech);
+  console.log('% de alunas ACIMA da média em TECH SKILLS: ' + aboveAvgTech + '%');
+  console.log('% de alunas ABAIXO da média em TECH SKILLS: ' + underAvgTech + '%');
+  console.log('........................................................');
+  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da média em SOFT SKILLS: ' + numAboveAvgSoft);
+  console.log('NÚMERO de alunas ABAIXO da média em SOFT SKILLS: ' + numUnderAvgSoft);
+  console.log('% de alunas ACIMA da média em SOFT SKILLS: ' + aboveAvgSoft + '%');
+  console.log('% de alunas ABAIXO da média em SOFT SKILLS: ' + underAvgSoft + '%');
+  console.log('........................................................');
+  console.log('% de NPS da Laboratória: ' + npsScore + '%');
+  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents + '%');
+  console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
+  console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
 
 //DINE, ESSA FUNÇÃO AQUI ESTÁ PRONTA, JÁ DÁ PRA INSERIR ELA NO HTML E USAR ELA NO DROPDOWN
@@ -364,16 +477,14 @@ function getSprintData() {
   sprtAttendeesTechPts = 0;
   sprtAttendeesSoftPts = 0;
   numAboveAvgTech = 0;
-  numInAvgTech = 0;
   numUnderAvgTech = 0;
   numAboveAvgSoft = 0;
-  numInAvgSoft = 0;
   numUnderAvgSoft = 0;
 
   //definir branch como o valor selecionado no dropdown de sede
   dropdownBranch = 'AQP';
   //definir branchClass como o valor selecionado no dropdown de turma
-  dropdownClass = '2016-2';
+  dropdownClass = '2017-1';
   //definir sprint como o valor selecionado no dropdown de sprint
   dropdownSprint = 1;
 
@@ -403,10 +514,8 @@ function getSprintData() {
             sprtAttendeesTechPts += 1;
 
             //Cálculo do desempenho (supera / cumple / no-cumple) em Tech Skills por número de aluna
-            if (techPoints >= 1440) {
+            if (techPoints >= 1260) {
               numAboveAvgTech += 1;
-            } else if (techPoints >= 1260 && techPoints <= 1439) {
-              numInAvgTech += 1;
             } else if (techPoints <= 1259) {
               numUnderAvgTech += 1;
             }
@@ -417,10 +526,8 @@ function getSprintData() {
             sprtAttendeesSoftPts += 1;
 
             //Cálculo do desempenho (supera / cumple / no-cumple) em SoftSkills por número de aluna
-            if (softPoints >= 960) {
+            if (softPoints >= 840) {
               numAboveAvgSoft += 1;
-            } else if (softPoints >= 840 && softPoints <= 959) {
-              numInAvgSoft += 1;
             } else if (softPoints <= 839) {
               numUnderAvgSoft += 1;
             }
@@ -432,12 +539,10 @@ function getSprintData() {
       rating = data[dropdownBranch][dropdownClass]['ratings'];
       for (sp in rating) {
         if (branch === dropdownBranch && branchClass === dropdownClass && student['sprints'][sp]['number'] === dropdownSprint) {
-          aboveAvg = rating[sp]['student']['supera'];
-          inAvg = rating[sp]['student']['cumple'];
-          underAvg = rating[sp]['student']['no-cumple'];
+          exceedsExpectations = rating[sp]['student']['supera'];
+          meetsExpectations = rating[sp]['student']['cumple'];
 
           //Pegando dados de avaliação da Laboratória
-          happyStudents = rating[sp]['nps']['promoters'];
           npsScore = happyStudents - rating[sp]['nps']['detractors'];
           jediMasterScore = rating[sp]['jedi'];
           mentorsScore = rating[sp]['teacher'];
@@ -446,41 +551,37 @@ function getSprintData() {
     }
   }
 
+  //Cálculo da porcentagem das alunas ativas e inativas
+  perctOfActiveStudents = Math.round((numOfActiveStudents * 100) / numOfStudents);
+  perctOfInactiveStudents = Math.round((numOfInactiveStudents * 100) / numOfStudents);
+
   //Cálculo da média de tech skills da turma
-  classTechAvgScore = Math.round((((techPointsSum / sprtAttendeesTechPts) / 1800) * 10) * 10) / 10;
+  classTechAvgScore = Math.round(((techPointsSum / sprtAttendeesTechPts) / 1800) * 100);
 
   //Cálculo da média de soft skills da turma
-  classSoftAvgScore = Math.round((((softPointsSum / sprtAttendeesSoftPts) / 1200) * 10) * 10) / 10;
+  classSoftAvgScore = Math.round(((softPointsSum / sprtAttendeesSoftPts) / 1200) * 100);
 
   //Cálculo da média geral da turma:
-  classAvgScore = Math.round(((classTechAvgScore + classSoftAvgScore) / 2) * 10) / 10;
+  classAvgScore = Math.round((classTechAvgScore + classSoftAvgScore) / 2);
 
-  //Cálculo de número de alunas (supera / cumple / no-cumple)
-  numAboveAvg = Math.round((sprtAttendeesTechPts * aboveAvg) / 100);
-  numInAvg = Math.round((sprtAttendeesTechPts * inAvg) / 100);
-  numUnderAvg = Math.round((sprtAttendeesTechPts * underAvg) / 100);
-
-  //Soma de todas as alunas com média geral acima de 70%
-  totalAboveAvg = aboveAvg + inAvg;
-  numTotalAboveAvg = numAboveAvg + numInAvg;
-
-  //Cálculo do desempenho (supera / cumpre / no-cumpre) de alunas em TechSkills em porcentagem
+  //Cálculo de alunas acima / abaixo da média em TechSkills em porcentagem
   aboveAvgTech = Math.round((numAboveAvgTech * 100) / sprtAttendeesTechPts);
-  inAvgTech = Math.round((numInAvgTech * 100) / sprtAttendeesTechPts);
   underAvgTech = Math.round((numUnderAvgTech * 100) / sprtAttendeesTechPts);
 
-  //Soma de todas as alunas com média geral acima de 70% em TechSkills
-  totalAboveAvgTech = aboveAvgTech + inAvgTech;
-  numTotalAboveAvgTech = numAboveAvgTech + numInAvgTech;
-
-  //Cálculo do desempenho (supera / cumpre / no-cumpre) de alunas em Softskills em porcentagem
+  //Cálculo de alunas acima / abaixo da média em Softskills em porcentagem
   aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / sprtAttendeesSoftPts);
-  inAvgSoft = Math.round((numInAvgSoft * 100) / sprtAttendeesSoftPts);
   underAvgSoft = Math.round((numUnderAvgSoft * 100) / sprtAttendeesSoftPts);
 
-  //Soma de todas as alunas com média geral acima de 70% em Softskills
-  totalAboveAvgSoft = aboveAvgSoft + inAvgSoft;
-  numTotalAboveAvgSoft = numAboveAvgSoft + numInAvgSoft;
+  //Cálculo de número de alunas acima / abaixo da média
+  numAboveAvg = Math.round((numAboveAvgTech + numAboveAvgSoft) / 2);
+  numUnderAvg = Math.round((numUnderAvgTech + numUnderAvgSoft) / 2);
+
+  //Cálculo de porcentagem de alunas acima / abaixo da média
+  aboveAvg = Math.round((aboveAvgTech + aboveAvgSoft) / 2);
+  underAvg = Math.round((underAvgTech + underAvgSoft) / 2);
+
+  //Porcentagem das alunas satisfeitas com a Laboratoria_RGB_logo
+  happyStudents = exceedsExpectations + meetsExpectations;
 
   console.log('........................................................');
   console.log('........................................................');
@@ -488,44 +589,32 @@ function getSprintData() {
   console.log('NÚMERO de estudantes: ' + numOfStudents);
   console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
   console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
+  console.log('% das estudantes ATIVAS: ' + perctOfActiveStudents + '%');
+  console.log('% das estudantes INATIVAS: ' + perctOfInactiveStudents + '%');
   console.log('........................................................');
-  console.log('MÉDIA GERAL da turma: ' + classAvgScore);
-  console.log('NÚMERO de alunas que SUPERA a meta em MÉDIA GERAL: ' + numAboveAvg);
-  console.log('NÚMERO de alunas que CUMPRE a meta em MÉDIA GERAL: ' + numInAvg);
-  console.log('NÚMERO de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + numUnderAvg);
-  console.log('% de alunas que SUPERA a meta em MÉDIA GERAL: ' + aboveAvg);
-  console.log('% de alunas que CUMPRE a meta em MÉDIA GERAL: ' + inAvg);
-  console.log('% de alunas que NÃO CUMPRE a meta em MÉDIA GERAL: ' + underAvg);
-  console.log('% de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + totalAboveAvg);
-  console.log('NUMERO de alunas ACIMA DA MÉDIA em MÉDIA GERAL: ' + numTotalAboveAvg);
+  console.log('MÉDIA GERAL da turma: ' + classAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da MÉDIA GERAL: ' + numAboveAvg);
+  console.log('NÚMERO de alunas ABAIXO da MÉDIA GERAL: ' + numUnderAvg);
+  console.log('% de alunas ACIMA da MÉDIA GERAL: ' + aboveAvg + '%');
+  console.log('% de alunas ABAIXO da MÉDIA GERAL: ' + underAvg + '%');
   console.log('........................................................');
-  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore);
-  console.log('NÚMERO de alunas que SUPERA a meta em TECH SKILLS: ' + numAboveAvgTech);
-  console.log('NÚMERO de alunas que CUMPRE a meta em TECH SKILLS: ' + numInAvgTech);
-  console.log('NÚMERO de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + numUnderAvgTech);
-  console.log('% de alunas que SUPERA a meta em TECH SKILLS: ' + aboveAvgTech);
-  console.log('% de alunas que CUMPRE a meta em TECH SKILLS: ' + inAvgTech);
-  console.log('% de alunas que NÃO CUMPRE a meta em TECH SKILLS: ' + underAvgTech);
-  console.log('% de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + totalAboveAvgTech);
-  console.log('NÚMERO de alunas ACIMA DA MÉDIA em TECH SKILLS: ' + numTotalAboveAvgTech);
+  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da média em TECH SKILLS: ' + numAboveAvgTech);
+  console.log('NÚMERO de alunas ABAIXO da média em TECH SKILLS: ' + numUnderAvgTech);
+  console.log('% de alunas ACIMA da média em TECH SKILLS: ' + aboveAvgTech + '%');
+  console.log('% de alunas ABAIXO da média em TECH SKILLS: ' + underAvgTech + '%');
   console.log('........................................................');
-  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore);
-  console.log('NÚMERO de alunas que SUPERA a meta em SOFT SKILLS: ' + numAboveAvgSoft);
-  console.log('NÚMERO de alunas que CUMPRE a meta em SOFT SKILLS: ' + numInAvgSoft);
-  console.log('NÚMERO de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + numUnderAvgSoft);
-  console.log('% de alunas que SUPERA a meta em SOFT SKILLS: ' + aboveAvgSoft);
-  console.log('% de alunas que CUMPRE a meta em SOFT SKILLS: ' + inAvgSoft);
-  console.log('% de alunas que NÃO CUMPRE a meta em SOFT SKILLS: ' + underAvgSoft);
-  console.log('% de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + totalAboveAvgSoft);
-  console.log('NÚMERO de alunas ACIMA DA MÉDIA em SOFT SKILLS: ' + numTotalAboveAvgSoft);
+  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore + '%');
+  console.log('NÚMERO de alunas ACIMA da média em SOFT SKILLS: ' + numAboveAvgSoft);
+  console.log('NÚMERO de alunas ABAIXO da média em SOFT SKILLS: ' + numUnderAvgSoft);
+  console.log('% de alunas ACIMA da média em SOFT SKILLS: ' + aboveAvgSoft + '%');
+  console.log('% de alunas ABAIXO da média em SOFT SKILLS: ' + underAvgSoft + '%');
   console.log('........................................................');
-  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents);
-  console.log('% de NPS da Laboratória: ' + npsScore);
+  console.log('% de NPS da Laboratória: ' + npsScore + '%');
+  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents + '%');
   console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
   console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
-
-
 
 var studentPhoto;
 var studentName;
@@ -570,7 +659,7 @@ function showStudentsCards() {
             softMedia += sprint[j]['score']['hse'];
           }
           softMedia = parseInt(softMedia/sprintLength);
-        } 
+        }
         createStudentCard();
       }
     }
