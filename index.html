@@ -10,9 +10,43 @@
     <header class="flexRow">
       <img id="logo" src="assets/images/isotipo/RGB/Laboratoria_RGB_logo-11.png" alt="">
       <div class="flexRow topMenu">
-        <ul class="flexRow">
-          <li><h1 class="drop title office">São Paulo</h1></li>
-          <li><h1 class="drop title classMenu">20181</h1></li>
+        <ul id="ulSelectedBranch">
+          <li id="selectedBranch" class="drop title office">São Paulo
+            <ul id=dropdownBranch>
+              <li id="aqp">Arequipa</li>
+              <li id="cdmx">Cidade do Mexico</li>
+              <li id="lim">Lima</li>
+              <li id="scl">Santiago</li>
+              <li id="spa">São Paulo</li>
+            </ul>
+          </li>
+        </ul>
+        <ul id="ulSelectedClass">
+          <li id="selectedClass" class="drop title classMenu">20181
+            <ul id="dropdownClass">
+              <li>2017
+                <ul class="dropSprint">
+                  <li>a</li>
+                  <li>b</li>
+                  <li>c</li>
+                </ul>
+              </li>
+              <li>2016
+                <ul class="dropSprint">
+                  <li>d</li>
+                  <li>e</li>
+                  <li>f</li>
+                </ul>
+              </li>
+              <li>2015
+                <ul class="dropSprint">
+                  <li>g</li>
+                  <li>h</li>
+                  <li>i</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
       <i class="far fa-user-circle"></i>

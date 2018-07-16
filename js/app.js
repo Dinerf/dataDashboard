@@ -1,5 +1,8 @@
 window.onload = loadFunctions();
-document.getElementById("tabStudents").onclick = showStudentsCards();
+document.getElementById('tabStudents').onclick = showStudentsCards();
+document.getElementById('dropdownBranch').onclick = dropdownBranch();
+document.getElementById('dropdownClass').onclick = dropdownClass();
+
 
 function loadFunctions() {
 //Estado inicial do conteúdo das tabs e evento para mostrá-las com click
@@ -41,7 +44,6 @@ function showHideTabs(e) {
 }
 
 //Função para pegar dados do banco e inserir no dashboard de Sede:Turma:sprint
-
 //trocar isso aqui depois que o dropdown tiver definido por eventos que chamem essas funções
 getBranchData();
 getSprintData();
@@ -66,6 +68,7 @@ var dropdownSprint;
 var classAvgScore;
 var classTechAvgScore;
 var classSoftAvgScore;
+var theTarget
 
 //Em andamento
 function getBranchData() {
@@ -94,6 +97,18 @@ function getBranchData() {
       }
     }
   }
+}
+
+function dropdownBranch(event) {
+  theTarget = event.target.id;
+  console.log(theTarget);
+  theTarget === 'aqp' ? dropdownBranch = 'AQP' : dropdownBranch = "";
+  theTarget === 'cdmx' ? dropdownBranch = 'CMDX' : dropdownBranch = "";
+  theTarget === 'lim' ? dropdownBranch = 'LIM' : dropdownBranch = "";
+  theTarget === 'scl' ? dropdownBranch = 'SCL' : dropdownBranch = "";
+  theTarget === 'spa' ? dropdownBranch = 'SPA' : dropdownBranch = "";
+
+  console.log('x');
 }
 
 function getSprintData() {
@@ -159,6 +174,8 @@ function getSprintData() {
   //Média geral da turma:
   classAvgScore = (classTechAvgScore + classSoftAvgScore) / 2;
 }
+
+
 
 var studentPhoto;
 var studentName;
