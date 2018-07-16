@@ -60,13 +60,13 @@ header {
 }
 
 .topMenu {
-  width: 90%;
+  width: 88%;
   justify-content: flex-start;
   align-items: center;
 }
 
 .topMenu ul {
-  width: 50%;
+  width: 55%;
   justify-content: flex-start;
   align-items: baseline;
 }
@@ -184,12 +184,8 @@ div.studentInfo > p {
   line-height: 150%;
   font-size: 90%;
 }
-<<<<<<< HEAD
-p.name {
-=======
 
-.name {
->>>>>>> 2536d84144868a322099ee631533c2af245cbf71
+p.name {
   font-size: 100%;
   font-weight: 800;
   width: 100%;

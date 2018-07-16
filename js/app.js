@@ -160,27 +160,54 @@ function getSprintData() {
   classAvgScore = (classTechAvgScore + classSoftAvgScore) / 2;
 }
 
-
-var studentPhoto
-var studentName
-var studentOffice
-var studentClass
-var studentStatus
-var techMedia
-var softMedia
+var studentPhoto;
+var studentName;
+var studentOffice;
+var studentClass;
+var studentStatus;
+var techMedia;
+var softMedia;
 
 function showStudentsCards() {
-  for (office in data) {
+  for (var office in data) {
     studentOffice = office;
-    for (_class in data[office]) {
-      studentClass = _class;
-      for (i in data[office][_class]['students']) {
-        studentName = data[office][_class]['students'][i]['name'];
-        studentPhoto = data[office][_class]['students'][i]['photo'];
-        studentStatus = data[office][_class]['students'][i]['active'];
-        // techMedia = data[office][_class]['students'][i]['sprints'][1]['tech']
-        // techMedia = data[office][_class]['students'][i]['sprints'][1]['hse']
-        createStudentCard()
+    if (studentOffice === 'AQP') {
+      studentOffice = 'Arequipa';
+    } else if (studentOffice === 'CDMX') {
+      studentOffice = 'Cidade do México';
+    } else if (studentOffice === 'LIM') {
+      studentOffice = 'Lima';
+    } else if (studentOffice === 'SCL') {
+      studentOffice = 'Santiago do Chile';
+    }
+    for (var classes in data[office]) {
+      studentClass = classes;
+      for (var i in data[office][classes]['students']) {
+        studentName = data[office][classes]['students'][i]['name'];
+        studentPhoto = data[office][classes]['students'][i]['photo'];
+        if (data[office][classes]['students'][i]['active'] === true) {
+          studentStatus = 'Ativa';
+        } else {
+          studentStatus = 'Inativa';
+        }
+        var sprint = data[office][classes]['students'][i]['sprints'];
+        var sprintLength = sprint.length;
+        techMedia = 0;
+        if (sprintLength !== 0) {
+          for (var j = 0; j < sprintLength; j++) {
+            techMedia += sprint[j]['score']['tech'];
+          }
+          techMedia = parseInt(techMedia/sprintLength);
+
+          softMedia = 0;
+          for (var j = 0; j < sprintLength; j++) {
+            softMedia += sprint[j]['score']['hse'];
+          }
+          softMedia = parseInt(softMedia/sprintLength);
+        } else {
+          softMedia = 0;
+        }
+        createStudentCard();
       }
     }
   }
