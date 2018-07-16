@@ -74,9 +74,6 @@ var sprtAttendeesSoftPts;
 var classAvgScore;
 var classTechAvgScore;
 var classSoftAvgScore;
-<<<<<<< HEAD
-var theTarget
-=======
 //variáveis para cálculo de supera/cumpre/no-cumpre geral da turma
 var aboveAvg;
 var inAvg;
@@ -113,7 +110,6 @@ var happyStudents;
 var jediMasterScore;
 var mentorsScore;
 
->>>>>>> cfe07376900421a4e49304974a6a1b8369cd38f3
 
 //Em andamento
 function getBranchData() {
@@ -144,7 +140,6 @@ function getBranchData() {
   }
 }
 
-<<<<<<< HEAD
 function dropdownBranch(event) {
   theTarget = event.target.id;
   console.log(theTarget);
@@ -158,9 +153,9 @@ function dropdownBranch(event) {
 }
 
 function getSprintData() {
-=======
+}
+
 function getClassData() {
->>>>>>> cfe07376900421a4e49304974a6a1b8369cd38f3
   numOfStudents = 0;
   numOfActiveStudents = 0;
   numOfInactiveStudents = 0;
