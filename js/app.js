@@ -157,6 +157,10 @@ function dropdownBranch(event) {
   return dropdownBranch;
 }
 
+function dropdownClass() {
+  
+}
+
 function getClassData() {
   numOfStudents = 0;
   numOfActiveStudents = 0;
