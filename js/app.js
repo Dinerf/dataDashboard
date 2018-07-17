@@ -10,10 +10,10 @@ function loadFunctions() {
   students.style.display = 'none';
   team.style.display = 'none';
 
-  var tabs = document.getElementsByClassName('tab');
-  for (i = 0; i < tabs.length; i++) {
-    tabs[i].addEventListener('click', showHideTabs);
-  }
+  // var tabs = document.getElementsByClassName('tab');
+  // for (i = 0; i < tabs.length; i++) {
+  //   tabs[i].addEventListener('click', showHideTabs);
+  // }
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
@@ -24,24 +24,24 @@ function loadFunctions() {
 
 //Função que mostra ou esconde o conteúdo das tabs
 function showHideTabs(e) {
-  var selectedTab = e.target.dataset.selectedTab;
-  var principal = document.getElementById('principal');
-  var students = document.getElementById('students');
-  var team = document.getElementById('team');
+  // var selectedTab = e.target.dataset.selectedTab;
+  // var principal = document.getElementById('principal');
+  // var students = document.getElementById('students');
+  // var team = document.getElementById('team');
 
-  if (selectedTab === 'tab-principal') {
-    principal.style.display = 'flex';
-    students.style.display = 'none';
-    team.style.display = 'none';
-  } else if (selectedTab === 'tab-students') {
-    students.style.display = 'flex';
-    principal.style.display = 'none';
-    team.style.display = 'none';
-  } else if (selectedTab === 'tab-team') {
-    team.style.display = 'flex';
-    principal.style.display = 'none';
-    students.style.display = 'none';
-  }
+  // if (selectedTab === 'tab-principal') {
+  //   principal.style.display = 'flex';
+  //   students.style.display = 'none';
+  //   team.style.display = 'none';
+  // } else if (selectedTab === 'tab-students') {
+  //   students.style.display = 'flex';
+  //   principal.style.display = 'none';
+  //   team.style.display = 'none';
+  // } else if (selectedTab === 'tab-team') {
+  //   team.style.display = 'flex';
+  //   principal.style.display = 'none';
+  //   students.style.display = 'none';
+  // }
 }
 
 //variáveis do menu dropdownSprint
@@ -142,11 +142,14 @@ function dropdownBranch(event) {
 
 function loadPrincipalData() {
   dropdownClass = document.getElementById('headerClass').textContent;
+  dropdownSprint = document.getElementById('headerSprint').textContent;
   console.log(dropdownClass);
 
-  if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma') {
+  if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint !== 'Sprint') {
+    getSprintData();
+  } else if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint === 'Sprint') {
     getClassData();
-  } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma') {
+  } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma' && dropdownSprint === 'Sprint') {
     getBranchData();
   } else {
     document.getElementById('principal').innerHTML = '';
@@ -176,24 +179,24 @@ function dropdownClasses() {
 
 function selectClass(event) {
   document.getElementById('headerClass').textContent = event.target.textContent;
+  loadPrincipalData()
 }
 
 function dropdownSprint(event) {
   clearSprint();
   document.getElementById('headerSprint').style.display = "block";
   var classes = event.target.textContent;
-  console.log(classes);
   for (var i in data[dropdownBranch][classes]['ratings']) {
     var sprint = "Sprint " + data[dropdownBranch][classes]['ratings'][i]['sprint'];
     var sprintMenu = document.createElement('li');
     sprintMenu.textContent = sprint;
     document.getElementById('dropdownSprint').appendChild(sprintMenu);
   }
-  loadPrincipalData();
 }
 
 function selectSprint(event) {
   document.getElementById('headerSprint').textContent = event.target.textContent;
+  loadPrincipalData();
 }
 
 function clearSprint() {
@@ -204,30 +207,6 @@ function clearSprint() {
   dropdownSprint.setAttribute('id', 'dropdownSprint');
   document.getElementById('selectedSprint').appendChild(dropdownSprint);
   document.getElementById('headerSprint').textContent = "Sprint";
-}
-
-
-
-
-// function selectSprint(event) {
-//   var theTarget = event.target.value;
-
-//   for (var i in data[dropdownBranch][headerClass]['ratings'][i]['sprint']) {
-
-//  }
-
-//   // .style.display = 'block';
-// }
-
-{/* <i class="fas angle fa-angle-double-right"> */}
-
-
-//Em andamento
-function getBranchData() {
-  numOfStudents = 0;
-  numOfActiveStudents = 0;
-  numOfInactiveStudents = 0;
-
 }
 
 function getBranchData() {
@@ -252,8 +231,6 @@ function getBranchData() {
   sumJediScore = 0;
   sumMentorsScore = 0;
   numClasses = 0;
-
-  document.getElementById('principal').innerHTML = '';
 
   for (var branch in data) {
     for (var branchClass in data[branch]) {
@@ -422,8 +399,6 @@ function getClassData() {
   sumJediScore = 0;
   sumMentorsScore = 0;
 
-  document.getElementById('principal').innerHTML = '';
-
   for (var b in data) {
     branch = b;
     for (var c in data[branch]) {
@@ -584,12 +559,8 @@ function getSprintData() {
   numAboveAvg = 0;
   numUnderAvg = 0;
 
-  //definir branch como o valor selecionado no dropdown de sede
-  dropdownBranch = 'AQP';
-  //definir branchClass como o valor selecionado no dropdown de turma
-  dropdownClass = '2016-2';
-  //definir sprint como o valor selecionado no dropdown de sprint
-  dropdownSprint = 1;
+  dropdownSprint = dropdownSprint.split(' ');
+  dropdownSprint = parseInt(dropdownSprint[1]);
 
   for (var b in data) {
     branch = b;
@@ -688,13 +659,16 @@ function getSprintData() {
   //Porcentagem das alunas satisfeitas com a Laboratoria
   happyStudents = exceedsExpectations + meetsExpectations;
 
+  dashbSprintTitle = dropdownSprint;
+  dashbClassTitle = dropdownClass;
+  dashbTitle = dashbBranchTitle + ': ' + dashbClassTitle + ': Sprint ' + dashbSprintTitle + ':';
   createMainDashboard();
-  console.log('olar');
-
 }
 
 function createMainDashboard() {
   document.getElementById('numOfStudents').textContent = numOfStudents;
+  console.log(document.getElementById('numOfStudents').textContent);
+  
   document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
   document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
   document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
@@ -724,64 +698,6 @@ function createMainDashboard() {
   document.getElementById('happyStudents').textContent = happyStudents;
   document.getElementById('jediMasterScore').textContent = jediMasterScore;
   document.getElementById('mentorsScore').textContent = mentorsScore;
-
-  // var template = `
-  //   <h2>${dashbTitle}</h2>
-  //   <div class="container-sub-column">
-  //     <div class="sub-column data-students">
-  //       <h3>Alunas e Presença:</h3>
-  //       <p>Total de Alunas: <span class="status-principal">${numOfStudents}</span></p>
-  //       <br>
-  //       <p>Ativas: <span class="status-principal">${numOfActiveStudents} (${perctOfActiveStudents}%)</span></p>
-  //       <p>Inativas: <span class="status-principal">${numOfInactiveStudents} (${perctOfInactiveStudents}%)</span></p>
-  //       <p>Formadas: <span class="status-principal">Não há dados</span></p>
-  //       <br>
-  //       <p>Presença: <span class="status-principal">Não há dados</span></p>
-  //       <p>Atrasos: <span class="status-principal">Não há dados</span></p>
-  //     </div>
-  //     <div class="sub-column total-score">
-  //       <h3>Desempenho Geral:</h3>
-  //       <p>Média: <span class="status-principal">${classAvgScore}%</span></p>
-  //       <br>
-  //       <p>Meta: <span class="status-principal">70%</span></p>
-  //       <p>Acima da meta: <span class="status-principal">${numAboveAvg} (${aboveAvg})</span></p>
-  //       <p>Abaixo da meta: <span class="status-principal">${numUnderAvg} (${underAvg})</span></p>
-  //       <p>Não pontuou: <span class="status-principal">${noPoints} (PORCENTAGENS!)</span></p>
-  //       <br>
-  //     </div>
-  //     <div class="sub-column detailed-score">
-  //       <h3>Desempenho em Tech Skills:</h3>
-  //       <p>Média: <span class="status-principal">${classTechAvgScore}%</span></p>
-  //       <br>
-  //       <p>Meta: <span class="status-principal">70%</span></p>
-  //       <p>Acima da meta: <span class="status-principal">${numAboveAvgTech} (${aboveAvgTech}%)</span></p>
-  //       <p>Abaixo da meta: <span class="status-principal">${numUnderAvgTech} (${underAvgTech}%)</span></p>
-  //       <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
-  //       <br>
-  //       <h3>Desempenho em Soft Skills:</h3>
-  //       <p>Média: <span class="status-principal">${classSoftAvgScore}%</span></p>
-  //       <br>
-  //       <p>Meta: <span class="status-principal">70%</span></p>
-  //       <p>Acima da meta: <span class="status-principal">${numAboveAvgSoft} (${aboveAvgSoft}%)</span></p>
-  //       <p>Abaixo da meta: <span class="status-principal">${numUnderAvgSoft} (${underAvgSoft}%)</span></p>
-  //       <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
-  //       <br>
-  //     </div>
-  //     <div class="sub-column team-score">
-  //       <h3>Desempenho da Laboratória:</h3>
-  //       <p>Net Promoter Score (NPS): <span class="status-principal">${npsScore}%</span></p>
-  //       <p>Alunas satisfeitas: <span class="status-principal">${happyStudents}%</span></p>
-  //       <br>
-  //       <h3>Desempenho da Equipe:</h3>
-  //       <p>Jedi Masters: <span class="status-principal">${jediMasterScore} / 5</span></p>
-  //       <p>Mentores: <span class="status-principal">${mentorsScore} / 5</span></p>
-  //     </div>
-  //   </div>
-  // `
-  // var mainDashboard = document.createElement('div');
-  // mainDashboard.setAttribute('class', 'flexCol data')
-  // mainDashboard.innerHTML = template;
-  // document.getElementById('principal').appendChild(mainDashboard);
 }
 
 var studentPhoto;
