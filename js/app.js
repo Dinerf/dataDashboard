@@ -6,7 +6,7 @@ function loadFunctions() {
   var students = document.getElementById('students');
   var team = document.getElementById('team');
 
-  principal.style.display = 'none';
+  principal.style.display = 'flex';
   students.style.display = 'none';
   team.style.display = 'none';
 
@@ -16,7 +16,7 @@ function loadFunctions() {
   }
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
-  document.getElementById('dropdownBranch').addEventListener("click", dropdownBranch);
+  document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
   // document.getElementById('dropdownClass').onclick = dropdownClass();
 }
 
@@ -41,12 +41,6 @@ function showHideTabs(e) {
     students.style.display = 'none';
   }
 }
-
-//Função para pegar dados do banco e inserir no dashboard de Sede:Turma:sprint
-//trocar isso aqui depois que o dropdown tiver definido por eventos que chamem essas funções
-getBranchData();
-getClassData();
-getSprintData();
 
 //variáveis do menu dropdownSprint
 var dropdownBranch;
@@ -109,6 +103,8 @@ var jediMasterScore;
 var sumJediScore;
 var mentorsScore;
 var sumMentorsScore;
+//Variáveis para o título do Dashboard
+var dashbBranchTitle;
 
 //Calculando número de sprints
 numSprints += 1;
@@ -117,17 +113,27 @@ function dropdownBranch(event) {
   var theTarget = event.target.id;
   if (theTarget == 'aqp') {
     dropdownBranch = 'AQP';
+    dashbBranchTitle = 'Arequipa';
   } else if (theTarget == 'cdmx') {
     dropdownBranch = 'CDMX';
+    dashbBranchTitle = 'Cidade do México';
   } else if (theTarget == 'lim') {
     dropdownBranch = 'LIM';
+    dashbBranchTitle = 'Lima';
   } else if (theTarget == 'scl') {
     dropdownBranch = 'SCL';
+    dashbBranchTitle = 'Santiago';
   } else if (theTarget == 'spa') {
     dropdownBranch = 'SPA';
   }
+
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
-  return dropdownBranch;
+
+  if (dropdownBranch !== 'SPA') {
+    getBranchData();
+  } else {
+    document.getElementById('principal').innerHTML = '';
+  }
 }
 
 function getBranchData() {
@@ -153,8 +159,7 @@ function getBranchData() {
   sumMentorsScore = 0;
   numClasses = 0;
 
-  //definir branch como o valor selecionado no dropdown de sede
-  dropdownBranch = 'AQP';
+  document.getElementById('principal').innerHTML = '';
 
   for (var branch in data) {
     for (var branchClass in data[branch]) {
@@ -293,38 +298,6 @@ function getBranchData() {
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
 
   createMainDashboard();
-
-  console.log('........................................................');
-  console.log('........................................................');
-  console.log('SE A PESSOA SELECIONAR SEDE:');
-  console.log('NÚMERO de estudantes: ' + numOfStudents);
-  console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
-  console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
-  console.log('% das estudantes ATIVAS: ' + perctOfActiveStudents + '%');
-  console.log('% das estudantes INATIVAS: ' + perctOfInactiveStudents + '%');
-  console.log('........................................................');
-  console.log('MÉDIA GERAL da turma: ' + classAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da MÉDIA GERAL: ' + numAboveAvg);
-  console.log('NÚMERO de alunas ABAIXO da MÉDIA GERAL: ' + numUnderAvg);
-  console.log('% de alunas ACIMA da MÉDIA GERAL: ' + aboveAvg + '%');
-  console.log('% de alunas ABAIXO da MÉDIA GERAL: ' + underAvg + '%');
-  console.log('........................................................');
-  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da média em TECH SKILLS: ' + numAboveAvgTech);
-  console.log('NÚMERO de alunas ABAIXO da média em TECH SKILLS: ' + numUnderAvgTech);
-  console.log('% de alunas ACIMA da média em TECH SKILLS: ' + aboveAvgTech + '%');
-  console.log('% de alunas ABAIXO da média em TECH SKILLS: ' + underAvgTech + '%');
-  console.log('........................................................');
-  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da média em SOFT SKILLS: ' + numAboveAvgSoft);
-  console.log('NÚMERO de alunas ABAIXO da média em SOFT SKILLS: ' + numUnderAvgSoft);
-  console.log('% de alunas ACIMA da média em SOFT SKILLS: ' + aboveAvgSoft + '%');
-  console.log('% de alunas ABAIXO da média em SOFT SKILLS: ' + underAvgSoft + '%');
-  console.log('........................................................');
-  console.log('% de NPS da Laboratória: ' + npsScore + '%');
-  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents + '%');
-  console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
-  console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
 
 function getClassData() {
@@ -495,38 +468,6 @@ function getClassData() {
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
 
   createMainDashboard();
-
-  console.log('........................................................');
-  console.log('........................................................');
-  console.log('SE A PESSOA SELECIONAR SEDE>TURMA:');
-  console.log('NÚMERO de estudantes: ' + numOfStudents);
-  console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
-  console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
-  console.log('% das estudantes ATIVAS: ' + perctOfActiveStudents + '%');
-  console.log('% das estudantes INATIVAS: ' + perctOfInactiveStudents + '%');
-  console.log('........................................................');
-  console.log('MÉDIA GERAL da turma: ' + classAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da MÉDIA GERAL: ' + numAboveAvg);
-  console.log('NÚMERO de alunas ABAIXO da MÉDIA GERAL: ' + numUnderAvg);
-  console.log('% de alunas ACIMA da MÉDIA GERAL: ' + aboveAvg + '%');
-  console.log('% de alunas ABAIXO da MÉDIA GERAL: ' + underAvg + '%');
-  console.log('........................................................');
-  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da média em TECH SKILLS: ' + numAboveAvgTech);
-  console.log('NÚMERO de alunas ABAIXO da média em TECH SKILLS: ' + numUnderAvgTech);
-  console.log('% de alunas ACIMA da média em TECH SKILLS: ' + aboveAvgTech + '%');
-  console.log('% de alunas ABAIXO da média em TECH SKILLS: ' + underAvgTech + '%');
-  console.log('........................................................');
-  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da média em SOFT SKILLS: ' + numAboveAvgSoft);
-  console.log('NÚMERO de alunas ABAIXO da média em SOFT SKILLS: ' + numUnderAvgSoft);
-  console.log('% de alunas ACIMA da média em SOFT SKILLS: ' + aboveAvgSoft + '%');
-  console.log('% de alunas ABAIXO da média em SOFT SKILLS: ' + underAvgSoft + '%');
-  console.log('........................................................');
-  console.log('% de NPS da Laboratória: ' + npsScore + '%');
-  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents + '%');
-  console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
-  console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
 
 function getSprintData() {
@@ -650,43 +591,11 @@ function getSprintData() {
   happyStudents = exceedsExpectations + meetsExpectations;
 
   createMainDashboard();
-
-  console.log('........................................................');
-  console.log('........................................................');
-  console.log('SE A PESSOA SELECIONAR SEDE>TURMA>SPRINT:');
-  console.log('NÚMERO de estudantes: ' + numOfStudents);
-  console.log('NÚMERO de estudantes ATIVAS: ' + numOfActiveStudents);
-  console.log('NÚMERO de estudantes INATIVAS: ' + numOfInactiveStudents);
-  console.log('% das estudantes ATIVAS: ' + perctOfActiveStudents + '%');
-  console.log('% das estudantes INATIVAS: ' + perctOfInactiveStudents + '%');
-  console.log('........................................................');
-  console.log('MÉDIA GERAL da turma: ' + classAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da MÉDIA GERAL: ' + numAboveAvg);
-  console.log('NÚMERO de alunas ABAIXO da MÉDIA GERAL: ' + numUnderAvg);
-  console.log('% de alunas ACIMA da MÉDIA GERAL: ' + aboveAvg + '%');
-  console.log('% de alunas ABAIXO da MÉDIA GERAL: ' + underAvg + '%');
-  console.log('........................................................');
-  console.log('MÉDIA da turma em TECH POINTS: ' + classTechAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da média em TECH SKILLS: ' + numAboveAvgTech);
-  console.log('NÚMERO de alunas ABAIXO da média em TECH SKILLS: ' + numUnderAvgTech);
-  console.log('% de alunas ACIMA da média em TECH SKILLS: ' + aboveAvgTech + '%');
-  console.log('% de alunas ABAIXO da média em TECH SKILLS: ' + underAvgTech + '%');
-  console.log('........................................................');
-  console.log('MÉDIA da turma em SOFT POINTS: ' + classSoftAvgScore + '%');
-  console.log('NÚMERO de alunas ACIMA da média em SOFT SKILLS: ' + numAboveAvgSoft);
-  console.log('NÚMERO de alunas ABAIXO da média em SOFT SKILLS: ' + numUnderAvgSoft);
-  console.log('% de alunas ACIMA da média em SOFT SKILLS: ' + aboveAvgSoft + '%');
-  console.log('% de alunas ABAIXO da média em SOFT SKILLS: ' + underAvgSoft + '%');
-  console.log('........................................................');
-  console.log('% de NPS da Laboratória: ' + npsScore + '%');
-  console.log('% de alunas SATISFEITAS com a Laboratória: ' + happyStudents + '%');
-  console.log('DESEMPENHO dos JEDI MASTERS: ' + jediMasterScore);
-  console.log('DESEMPRENHO dos MENTORES: ' + mentorsScore);
 }
 
 function createMainDashboard() {
   var template = `
-    <h2>São Paulo: 2018-1: Sprint 1</h2>
+    <h2>${dashbBranchTitle}</h2>
     <div class="container-sub-column">
       <div class="sub-column data-students">
         <h3>Alunas e Presença:</h3>
