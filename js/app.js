@@ -694,9 +694,37 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
-  document.getElementById('noPoints').textContent = ABC;
-  document.getElementById('aaa').textContent = ABC;
-  
+  document.getElementById('numOfStudents').textContent = numOfStudents;
+  document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
+  document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
+  document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
+  document.getElementById('perctOfInactiveStudents').textContent = perctOfInactiveStudents;
+  document.getElementById('classAvgScore').textContent = classAvgScore;
+  document.getElementById('numAboveAvg').textContent = numAboveAvg;
+  document.getElementById('aboveAvg').textContent = aboveAvg;
+  document.getElementById('numUnderAvg').textContent = numUnderAvg;
+  document.getElementById('underAvg').textContent = underAvg;
+  document.getElementById('noPoints').textContent = noPoints;
+  document.getElementById('noPointsPercent').textContent = noPointsPercent;
+  document.getElementById('classTechAvgScore').textContent = classTechAvgScore;
+  document.getElementById('numAboveAvgTech').textContent = numAboveAvgTech;
+  document.getElementById('aboveAvgTech').textContent = aboveAvgTech;
+  document.getElementById('numUnderAvgTech').textContent = numUnderAvgTech;
+  document.getElementById('underAvgTech').textContent = underAvgTech;
+  document.getElementById('noPointsTech').textContent = noPointsTech;
+  document.getElementById('noPointsTechPercent').textContent = noPointsTechPercent;
+  document.getElementById('classSoftAvgScore').textContent = classSoftAvgScore;
+  document.getElementById('numAboveAvgSoft').textContent = numAboveAvgSoft;
+  document.getElementById('aboveAvgSoft').textContent = aboveAvgSoft;
+  document.getElementById('numUnderAvgSoft').textContent = numUnderAvgSoft;
+  document.getElementById('underAvgSoft').textContent = underAvgSoft;
+  document.getElementById('noPointsSoft').textContent = noPointsSoft;
+  document.getElementById('noPointsSoftPercent').textContent = noPointsSoftPercent;
+  document.getElementById('npsScore').textContent = npsScore;
+  document.getElementById('happyStudents').textContent = happyStudents;
+  document.getElementById('jediMasterScore').textContent = jediMasterScore;
+  document.getElementById('mentorsScore').textContent = mentorsScore;
+
   // var template = `
   //   <h2>${dashbTitle}</h2>
   //   <div class="container-sub-column">
