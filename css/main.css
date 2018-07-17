@@ -261,3 +261,7 @@ ul#dropdownBranch {
 #headerClass, #headerSprint {
   display: none;
 }
+
+#profileStudents {
+  display: none;
+}
