@@ -666,9 +666,7 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
-  document.getElementById('numOfStudents').textContent = numOfStudents;
-  console.log(document.getElementById('numOfStudents').textContent);
-  
+  document.getElementById('numOfStudents').textContent = numOfStudents; 
   document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
   document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
   document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
