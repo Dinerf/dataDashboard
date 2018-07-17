@@ -108,9 +108,6 @@ var sumMentorsScore;
 //Variáveis para o título do Dashboard
 var dashbBranchTitle;
 
-//Calculando número de sprints
-numSprints += 1;
-
 function dropdownBranch(event) {
   var theTarget = event.target.id;
   if (theTarget == 'aqp') {
@@ -209,21 +206,6 @@ function getBranchData() {
   numOfActiveStudents = 0;
   numOfInactiveStudents = 0;
 
-  for (var b in data) {
-    branch = b;
-    for (var c in data[branch]) {
-      branchClass = c;
-      for (var s in data[branch][branchClass]['students']) {
-        student = data[branch][branchClass]['students'][s];
-      }
-    }
-  document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
-  }
-  if (dropdownBranch !== 'SPA') {
-    getBranchData();
-  } else {
-    document.getElementById('principal').innerHTML = '';
-  }
 }
 
 function getBranchData() {
