@@ -18,7 +18,7 @@ function loadFunctions() {
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
   document.getElementById('selectedClass').addEventListener('click', selectClass);
-  document.getElementsByClassName('angle').addEventListener('click', selectSprint);
+  // document.getElementsByClassName('angle').addEventListener('click', selectSprint);
 }
 
 //Função que mostra ou esconde o conteúdo das tabs
@@ -105,7 +105,10 @@ var sumJediScore;
 var mentorsScore;
 var sumMentorsScore;
 //Variáveis para o título do Dashboard
+var dashbTitle;
 var dashbBranchTitle;
+var dashbClassTitle;
+var dashbSprintTitle;
 
 function dropdownBranch(event) {
   var theTarget = event.target.id;
@@ -127,12 +130,20 @@ function dropdownBranch(event) {
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
   clearClasses();
   dropdownClasses();
+  loadPrincipalData()
+}
 
-  if (dropdownBranch !== 'SPA') {
+function loadPrincipalData() {
+  dropdownClass = document.getElementById('headerClass').textContent;
+
+  if (dropdownBranch !== 'SPA' && dropdownClass !== '20181') {
+    getClassData();
+  } else if (dropdownBranch !== 'SPA' && dropdownClass === '20181') {
     getBranchData();
   } else {
     document.getElementById('principal').innerHTML = '';
   }
+  console.log(dropdownClass !== '20181');
 }
 
 function clearClasses() {
@@ -174,6 +185,7 @@ function selectClass(event) {
   } else {
     document.getElementById('headerClass').textContent = theTarget;
   }
+  loadPrincipalData();
 }
 
 function selectSprint(event) {
@@ -345,6 +357,7 @@ function getBranchData() {
   aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
 
+  dashbTitle = dashbBranchTitle + ':';
   createMainDashboard();
 }
 
@@ -370,13 +383,11 @@ function getClassData() {
   sumJediScore = 0;
   sumMentorsScore = 0;
 
-  //definir branch como o valor selecionado no dropdown de sede
-  dropdownBranch = 'AQP';
-  //definir branchClass como o valor selecionado no dropdown de turma
-  dropdownClass = '2017-1';
+  document.getElementById('principal').innerHTML = '';
 
   for (var b in data) {
     branch = b;
+    console.log(b);
     for (var c in data[branch]) {
       branchClass = c;
 
@@ -515,6 +526,9 @@ function getClassData() {
   aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
 
+  dashbClassTitle = dropdownClass;
+  dashbTitle = dashbBranchTitle + ': ' + dashbClassTitle + ':';
+
   createMainDashboard();
 }
 
@@ -639,11 +653,13 @@ function getSprintData() {
   happyStudents = exceedsExpectations + meetsExpectations;
 
   createMainDashboard();
+  console.log('olar');
+
 }
 
 function createMainDashboard() {
   var template = `
-    <h2>${dashbBranchTitle}</h2>
+    <h2>${dashbTitle}</h2>
     <div class="container-sub-column">
       <div class="sub-column data-students">
         <h3>Alunas e Presença:</h3>
