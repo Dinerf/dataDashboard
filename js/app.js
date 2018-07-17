@@ -694,63 +694,66 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
-  var template = `
-    <h2>${dashbTitle}</h2>
-    <div class="container-sub-column">
-      <div class="sub-column data-students">
-        <h3>Alunas e Presença:</h3>
-        <p>Total de Alunas: <span class="status-principal">${numOfStudents}</span></p>
-        <br>
-        <p>Ativas: <span class="status-principal">${numOfActiveStudents} (${perctOfActiveStudents}%)</span></p>
-        <p>Inativas: <span class="status-principal">${numOfInactiveStudents} (${perctOfInactiveStudents}%)</span></p>
-        <p>Formadas: <span class="status-principal">Não há dados</span></p>
-        <br>
-        <p>Presença: <span class="status-principal">Não há dados</span></p>
-        <p>Atrasos: <span class="status-principal">Não há dados</span></p>
-      </div>
-      <div class="sub-column total-score">
-        <h3>Desempenho Geral:</h3>
-        <p>Média: <span class="status-principal">${classAvgScore}%</span></p>
-        <br>
-        <p>Meta: <span class="status-principal">70%</span></p>
-        <p>Acima da meta: <span class="status-principal">${numAboveAvg} (${aboveAvg})</span></p>
-        <p>Abaixo da meta: <span class="status-principal">${numUnderAvg} (${underAvg})</span></p>
-        <p>Não pontuou: <span class="status-principal">${noPoints} (PORCENTAGENS!)</span></p>
-        <br>
-      </div>
-      <div class="sub-column detailed-score">
-        <h3>Desempenho em Tech Skills:</h3>
-        <p>Média: <span class="status-principal">${classTechAvgScore}%</span></p>
-        <br>
-        <p>Meta: <span class="status-principal">70%</span></p>
-        <p>Acima da meta: <span class="status-principal">${numAboveAvgTech} (${aboveAvgTech}%)</span></p>
-        <p>Abaixo da meta: <span class="status-principal">${numUnderAvgTech} (${underAvgTech}%)</span></p>
-        <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
-        <br>
-        <h3>Desempenho em Soft Skills:</h3>
-        <p>Média: <span class="status-principal">${classSoftAvgScore}%</span></p>
-        <br>
-        <p>Meta: <span class="status-principal">70%</span></p>
-        <p>Acima da meta: <span class="status-principal">${numAboveAvgSoft} (${aboveAvgSoft}%)</span></p>
-        <p>Abaixo da meta: <span class="status-principal">${numUnderAvgSoft} (${underAvgSoft}%)</span></p>
-        <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
-        <br>
-      </div>
-      <div class="sub-column team-score">
-        <h3>Desempenho da Laboratória:</h3>
-        <p>Net Promoter Score (NPS): <span class="status-principal">${npsScore}%</span></p>
-        <p>Alunas satisfeitas: <span class="status-principal">${happyStudents}%</span></p>
-        <br>
-        <h3>Desempenho da Equipe:</h3>
-        <p>Jedi Masters: <span class="status-principal">${jediMasterScore} / 5</span></p>
-        <p>Mentores: <span class="status-principal">${mentorsScore} / 5</span></p>
-      </div>
-    </div>
-  `
-  var mainDashboard = document.createElement('div');
-  mainDashboard.setAttribute('class', 'flexCol data')
-  mainDashboard.innerHTML = template;
-  document.getElementById('principal').appendChild(mainDashboard);
+  document.getElementById('noPoints').textContent = ABC;
+  document.getElementById('aaa').textContent = ABC;
+  
+  // var template = `
+  //   <h2>${dashbTitle}</h2>
+  //   <div class="container-sub-column">
+  //     <div class="sub-column data-students">
+  //       <h3>Alunas e Presença:</h3>
+  //       <p>Total de Alunas: <span class="status-principal">${numOfStudents}</span></p>
+  //       <br>
+  //       <p>Ativas: <span class="status-principal">${numOfActiveStudents} (${perctOfActiveStudents}%)</span></p>
+  //       <p>Inativas: <span class="status-principal">${numOfInactiveStudents} (${perctOfInactiveStudents}%)</span></p>
+  //       <p>Formadas: <span class="status-principal">Não há dados</span></p>
+  //       <br>
+  //       <p>Presença: <span class="status-principal">Não há dados</span></p>
+  //       <p>Atrasos: <span class="status-principal">Não há dados</span></p>
+  //     </div>
+  //     <div class="sub-column total-score">
+  //       <h3>Desempenho Geral:</h3>
+  //       <p>Média: <span class="status-principal">${classAvgScore}%</span></p>
+  //       <br>
+  //       <p>Meta: <span class="status-principal">70%</span></p>
+  //       <p>Acima da meta: <span class="status-principal">${numAboveAvg} (${aboveAvg})</span></p>
+  //       <p>Abaixo da meta: <span class="status-principal">${numUnderAvg} (${underAvg})</span></p>
+  //       <p>Não pontuou: <span class="status-principal">${noPoints} (PORCENTAGENS!)</span></p>
+  //       <br>
+  //     </div>
+  //     <div class="sub-column detailed-score">
+  //       <h3>Desempenho em Tech Skills:</h3>
+  //       <p>Média: <span class="status-principal">${classTechAvgScore}%</span></p>
+  //       <br>
+  //       <p>Meta: <span class="status-principal">70%</span></p>
+  //       <p>Acima da meta: <span class="status-principal">${numAboveAvgTech} (${aboveAvgTech}%)</span></p>
+  //       <p>Abaixo da meta: <span class="status-principal">${numUnderAvgTech} (${underAvgTech}%)</span></p>
+  //       <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
+  //       <br>
+  //       <h3>Desempenho em Soft Skills:</h3>
+  //       <p>Média: <span class="status-principal">${classSoftAvgScore}%</span></p>
+  //       <br>
+  //       <p>Meta: <span class="status-principal">70%</span></p>
+  //       <p>Acima da meta: <span class="status-principal">${numAboveAvgSoft} (${aboveAvgSoft}%)</span></p>
+  //       <p>Abaixo da meta: <span class="status-principal">${numUnderAvgSoft} (${underAvgSoft}%)</span></p>
+  //       <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
+  //       <br>
+  //     </div>
+  //     <div class="sub-column team-score">
+  //       <h3>Desempenho da Laboratória:</h3>
+  //       <p>Net Promoter Score (NPS): <span class="status-principal">${npsScore}%</span></p>
+  //       <p>Alunas satisfeitas: <span class="status-principal">${happyStudents}%</span></p>
+  //       <br>
+  //       <h3>Desempenho da Equipe:</h3>
+  //       <p>Jedi Masters: <span class="status-principal">${jediMasterScore} / 5</span></p>
+  //       <p>Mentores: <span class="status-principal">${mentorsScore} / 5</span></p>
+  //     </div>
+  //   </div>
+  // `
+  // var mainDashboard = document.createElement('div');
+  // mainDashboard.setAttribute('class', 'flexCol data')
+  // mainDashboard.innerHTML = template;
+  // document.getElementById('principal').appendChild(mainDashboard);
 }
 
 var studentPhoto;

@@ -45,7 +45,70 @@
           <li class="tab title" data-selected-tab="tab-team">Equipe</li>
         </ul>
       </nav>
-      <section id="principal" class="flexCol"></section>
+      <section id="principal" class="flexCol">
+        
+        <h2 id="dashbTitle"></h2>
+        <div class="container-sub-column">
+          <div class="sub-column data-students">
+            <h3>Alunas e Presença:</h3>
+            <p>Total de Alunas: <span id="numOfStudents" class="status-principal"></span></p>
+            <br>
+            <p>Ativas: <span id="numOfActiveStudents" class="status-principal"></span><span id="perctOfActiveStudents"></span></p>
+            <p>Inativas: <span id="numOfInactiveStudents" class="status-principal"></span><span id="perctOfInactiveStudents"></span></p>
+            <p>Formadas: <span class="status-principal">Não há dados</span></p>
+            <br>
+            <p>Presença: <span class="status-principal">Não há dados</span></p>
+            <p>Atrasos: <span class="status-principal">Não há dados</span></p>
+          </div>
+          <div class="sub-column total-score">
+            <h3>Desempenho Geral:</h3>
+            <p>Média: <span id="classAvgScore" class="status-principal"></span></p>
+            <br>
+            <p>Meta: <span class="status-principal">70%</span></p>
+            <p>Acima da meta: <span id="numAboveAvg" class="status-principal"></span><span id="aboveAvg"></span></p>
+            <p>Abaixo da meta: <span id="numUnderAvg" class="status-principal"></span><span id="underAvg"></span></p>
+            <p>Não pontuou: <span id="noPoints" class="status-principal"></span><span id="noPointsPercent"></span></p>
+            <br>
+          </div>
+          <div class="sub-column detailed-score">
+            <h3>Desempenho em Tech Skills:</h3>
+            <p>Média: <span id="classTechAvgScore" class="status-principal"></span></p>
+            <br>
+            <p>Meta: <span class="status-principal">70%</span></p>
+            <p>Acima da meta: <span id="numAboveAvgTech" class="status-principal"></span><span id="aboveAvgTech"></span></p>
+            <p>Abaixo da meta: <span id="numUnderAvgTech" class="status-principal"></span><span id="underAvgTech"></span></p>
+            <p>Não pontuou: <span id="noPointsTech" class="status-principal"></span><span id="noPointsTechPercent"></span></p>
+            <br>
+            <h3>Desempenho em Soft Skills:</h3>
+            <p>Média: <span id="classSoftAvgScore" class="status-principal"></span></p>
+            <br>
+            <p>Meta: <span class="status-principal">70%</span></p>
+            <p>Acima da meta: <span id="numAboveAvgSoft" class="status-principal"></span><span id="aboveAvgSoft"></span></p>
+            <p>Abaixo da meta: <span id="numUnderAvgSoft" class="status-principal"></span><span id="underAvgSoft"></span></p>
+            <p>Não pontuou: <span id="noPointsSoft" class="status-principal"></span><span id="noPointsSoftPercent"></span></p>
+            <br>
+          </div>
+          <div class="sub-column team-score">
+            <h3>Desempenho da Laboratória:</h3>
+            <p>Net Promoter Score (NPS): <span id="npsScore" class="status-principal"></span></p>
+            <p>Alunas satisfeitas: <span id="happyStudents" class="status-principal"></span></p>
+            <br>
+            <h3>Desempenho da Equipe:</h3>
+            <p>Jedi Masters: <span id="jediMasterScore" class="status-principal"></span><span> / 5</span></p>
+            <p>Mentores: <span id="mentorsScore" class="status-principal"></span><span> / 5</span></p>
+          </div>
+        </div>
+  
+
+
+
+
+
+
+
+
+
+      </section>
       <section id="students" class="flexRow"></section>
       <section id="team">
         <p>Dados da equipe</p>
