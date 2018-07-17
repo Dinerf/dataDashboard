@@ -18,7 +18,8 @@ function loadFunctions() {
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
   document.getElementById('selectedClass').addEventListener('click', selectClass);
-  // document.getElementsByClassName('angle').addEventListener('click', selectSprint);
+  document.getElementById('selectedClass').addEventListener('click', dropdownSprint);
+  document.getElementById('selectedSprint').addEventListener('click', selectSprint);
 }
 
 //Função que mostra ou esconde o conteúdo das tabs
@@ -131,6 +132,9 @@ function dropdownBranch(event) {
     dropdownBranch = 'SPA';
   }
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
+  document.getElementById('headerClass').style.display = "block";
+  document.getElementById('headerSprint').style.display = "none";
+
   clearClasses();
   dropdownClasses();
   loadPrincipalData()
@@ -138,10 +142,11 @@ function dropdownBranch(event) {
 
 function loadPrincipalData() {
   dropdownClass = document.getElementById('headerClass').textContent;
+  console.log(dropdownClass);
 
-  if (dropdownBranch !== 'SPA' && dropdownClass !== '20181') {
+  if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma') {
     getClassData();
-  } else if (dropdownBranch !== 'SPA' && dropdownClass === '20181') {
+  } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma') {
     getBranchData();
   } else {
     document.getElementById('principal').innerHTML = '';
@@ -149,52 +154,79 @@ function loadPrincipalData() {
 }
 
 function clearClasses() {
+  clearSprint();
   var clearDropdownClasses = document.getElementById('dropdownClass');
   var clearClasses = document.getElementById('selectedClass');
   clearClasses.removeChild(clearDropdownClasses);
   var dropdownClass = document.createElement('ul');
   dropdownClass.setAttribute('id', 'dropdownClass');
   document.getElementById('selectedClass').appendChild(dropdownClass);
+  document.getElementById('headerClass').textContent = "Turma";
 }
 
+var headerClass
 function dropdownClasses() {
   for (var classes in data[dropdownBranch]) {
     var classesMenu = document.createElement('li');
     classesMenu.setAttribute('class', 'classesMenu');
-    var classValue = document.createElement('span');
-    classValue.textContent = classes;
-    classesMenu.appendChild(classValue);
-    var dropSprint = document.createElement('ul');
-    dropSprint.setAttribute('class', 'dropSprint');
-    var sprint;
-    var sprintMenu;
-    for (var i in data[dropdownBranch][classes]['ratings']) {
-      sprint = "Sprint " + data[dropdownBranch][classes]['ratings'][i]['sprint'];
-      sprintMenu = document.createElement('li');
-      sprintMenu.setAttribute('class', 'classSprint')
-      sprintMenu.textContent = sprint;
-      dropSprint.appendChild(sprintMenu);
-    }
-    classesMenu.appendChild(dropSprint);
+    classesMenu.textContent = classes;
     document.getElementById('dropdownClass').appendChild(classesMenu);
   }
 }
 
 function selectClass(event) {
-  var theTarget = event.target.textContent;
-  if(theTarget.match(/Sprint/)) {
+  document.getElementById('headerClass').textContent = event.target.textContent;
+}
 
-  } else {
-    document.getElementById('headerClass').textContent = theTarget;
+function dropdownSprint(event) {
+  clearSprint();
+  document.getElementById('headerSprint').style.display = "block";
+  var classes = event.target.textContent;
+  console.log(classes);
+  for (var i in data[dropdownBranch][classes]['ratings']) {
+    var sprint = "Sprint " + data[dropdownBranch][classes]['ratings'][i]['sprint'];
+    var sprintMenu = document.createElement('li');
+    sprintMenu.textContent = sprint;
+    document.getElementById('dropdownSprint').appendChild(sprintMenu);
   }
   loadPrincipalData();
 }
 
 function selectSprint(event) {
-  var theTarget = event.target;
-  alert(theTarget.textContent);
-  var sprint = $(theTarget > ul);
-  sprint.style.display = 'block';
+  document.getElementById('headerSprint').textContent = event.target.textContent;
+}
+
+function clearSprint() {
+  var clearDropdownSprint = document.getElementById('dropdownSprint');
+  var clearSprint = document.getElementById('selectedSprint');
+  clearSprint.removeChild(clearDropdownSprint);
+  var dropdownSprint = document.createElement('ul');
+  dropdownSprint.setAttribute('id', 'dropdownSprint');
+  document.getElementById('selectedSprint').appendChild(dropdownSprint);
+  document.getElementById('headerSprint').textContent = "Sprint";
+}
+
+
+
+
+// function selectSprint(event) {
+//   var theTarget = event.target.value;
+
+//   for (var i in data[dropdownBranch][headerClass]['ratings'][i]['sprint']) {
+
+//  }
+
+//   // .style.display = 'block';
+// }
+
+{/* <i class="fas angle fa-angle-double-right"> */}
+
+
+//Em andamento
+function getBranchData() {
+  numOfStudents = 0;
+  numOfActiveStudents = 0;
+  numOfInactiveStudents = 0;
 
 }
 
