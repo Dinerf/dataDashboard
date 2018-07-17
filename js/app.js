@@ -80,15 +80,18 @@ var aboveAvgSum;
 var underAvgSum;
 var numAboveAvg;
 var numUnderAvg;
+var noPoints;
 //variáveis para cálculo de média em tech skills
 var aboveAvgTech;
 var underAvgTech;
+var noPointsTech;
 var numAboveAvgTech;
 var numUnderAvgTech;
 var sumTechPointsStudent;
 //variáveis para cálculo de média em soft skills
 var aboveAvgSoft;
 var underAvgSoft;
+var noPointsSoft;
 var numAboveAvgSoft;
 var numUnderAvgSoft;
 var sumSoftPointsStudent;
@@ -106,7 +109,10 @@ var sumJediScore;
 var mentorsScore;
 var sumMentorsScore;
 //Variáveis para o título do Dashboard
+var dashbTitle;
 var dashbBranchTitle;
+var dashbClassTitle;
+var dashbSprintTitle;
 
 function dropdownBranch(event) {
   var theTarget = event.target.id;
@@ -128,8 +134,23 @@ function dropdownBranch(event) {
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
   document.getElementById('headerClass').style.display = "block";
   document.getElementById('headerSprint').style.display = "none";
+
   clearClasses();
   dropdownClasses();
+  loadPrincipalData()
+}
+
+function loadPrincipalData() {
+  dropdownClass = document.getElementById('headerClass').textContent;
+  console.log(dropdownClass);
+
+  if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma') {
+    getClassData();
+  } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma') {
+    getBranchData();
+  } else {
+    document.getElementById('principal').innerHTML = '';
+  }
 }
 
 function clearClasses() {
@@ -168,6 +189,7 @@ function dropdownSprint(event) {
     sprintMenu.textContent = sprint;
     document.getElementById('dropdownSprint').appendChild(sprintMenu);
   }
+  loadPrincipalData();
 }
 
 function selectSprint(event) {
@@ -191,7 +213,7 @@ function clearSprint() {
 //   var theTarget = event.target.value;
 
 //   for (var i in data[dropdownBranch][headerClass]['ratings'][i]['sprint']) {
-    
+
 //  }
 
 //   // .style.display = 'block';
@@ -332,6 +354,11 @@ function getBranchData() {
     numClasses += 1;
   }
 
+  //Cálculo do número de alunas que não ponturaram na sede
+  console.log(numOfStudents);
+  console.log(sprtAttendeesSoftPts / numSprints);
+  noPoints = numOfStudents - (sprtAttendeesSoftPts / numSprints);
+
   //Cálculo da satisfação das Alunas
   happyStudents = Math.round((sumExceedsExpectations + sumMeetsExpectations) / numSprints);
 
@@ -369,6 +396,7 @@ function getBranchData() {
   aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
 
+  dashbTitle = dashbBranchTitle + ':';
   createMainDashboard();
 }
 
@@ -394,10 +422,7 @@ function getClassData() {
   sumJediScore = 0;
   sumMentorsScore = 0;
 
-  //definir branch como o valor selecionado no dropdown de sede
-  dropdownBranch = 'AQP';
-  //definir branchClass como o valor selecionado no dropdown de turma
-  dropdownClass = '2017-1';
+  document.getElementById('principal').innerHTML = '';
 
   for (var b in data) {
     branch = b;
@@ -407,18 +432,21 @@ function getClassData() {
       for (var s in data[branch][branchClass]['students']) {
         student = data[branch][branchClass]['students'][s];
 
+        if (branch === dropdownBranch && branchClass === dropdownClass) {
+          numOfStudents += 1;
+
+          //calcula o número de estudantes ativas e inativas dessa turma
+          if (student['active'] === true) {
+            numOfActiveStudents += 1;
+          } else if (student['active'] === false) {
+            numOfInactiveStudents += 1;
+          }
+        }
+
         for (sp in student['sprints']) {
 
           //pega o número de estudantes dessa turma
           if (branch === dropdownBranch && branchClass === dropdownClass) {
-            numOfStudents += 1;
-
-            //calcula o número de estudantes ativas e inativas dessa turma
-            if (student['active'] === true) {
-              numOfActiveStudents += 1;
-            } else if (student['active'] === false) {
-              numOfInactiveStudents += 1;
-            }
 
             // Pega dados para calcular a média de tech points da turma
             techPoints = student['sprints'][sp]['score']['tech'];
@@ -508,11 +536,6 @@ function getClassData() {
   //Cálculo da média dos MENTORES
   mentorsScore = Math.round((sumMentorsScore / numSprints) * 10) / 10;
 
-  //Cálculo do número de alunas (total / ativas e inativas) da turma
-  numOfStudents = numOfStudents / numSprints;
-  numOfActiveStudents = numOfActiveStudents / numSprints;
-  numOfInactiveStudents = numOfInactiveStudents / numSprints;
-
   //Cálculo da porcentagem das alunas ativas e inativas
   perctOfActiveStudents = Math.round((numOfActiveStudents * 100) / numOfStudents);
   perctOfInactiveStudents = Math.round((numOfInactiveStudents * 100) / numOfStudents);
@@ -538,6 +561,9 @@ function getClassData() {
   //Cálculo de porcentagem de alunas acima / abaixo da média
   aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
+
+  dashbClassTitle = dropdownClass;
+  dashbTitle = dashbBranchTitle + ': ' + dashbClassTitle + ':';
 
   createMainDashboard();
 }
@@ -663,11 +689,13 @@ function getSprintData() {
   happyStudents = exceedsExpectations + meetsExpectations;
 
   createMainDashboard();
+  console.log('olar');
+
 }
 
 function createMainDashboard() {
   var template = `
-    <h2>${dashbBranchTitle}</h2>
+    <h2>${dashbTitle}</h2>
     <div class="container-sub-column">
       <div class="sub-column data-students">
         <h3>Alunas e Presença:</h3>
@@ -687,6 +715,7 @@ function createMainDashboard() {
         <p>Meta: <span class="status-principal">70%</span></p>
         <p>Acima da meta: <span class="status-principal">${numAboveAvg} (${aboveAvg})</span></p>
         <p>Abaixo da meta: <span class="status-principal">${numUnderAvg} (${underAvg})</span></p>
+        <p>Não pontuou: <span class="status-principal">${noPoints} (PORCENTAGENS!)</span></p>
         <br>
       </div>
       <div class="sub-column detailed-score">
@@ -696,6 +725,7 @@ function createMainDashboard() {
         <p>Meta: <span class="status-principal">70%</span></p>
         <p>Acima da meta: <span class="status-principal">${numAboveAvgTech} (${aboveAvgTech}%)</span></p>
         <p>Abaixo da meta: <span class="status-principal">${numUnderAvgTech} (${underAvgTech}%)</span></p>
+        <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
         <br>
         <h3>Desempenho em Soft Skills:</h3>
         <p>Média: <span class="status-principal">${classSoftAvgScore}%</span></p>
@@ -703,6 +733,7 @@ function createMainDashboard() {
         <p>Meta: <span class="status-principal">70%</span></p>
         <p>Acima da meta: <span class="status-principal">${numAboveAvgSoft} (${aboveAvgSoft}%)</span></p>
         <p>Abaixo da meta: <span class="status-principal">${numUnderAvgSoft} (${underAvgSoft}%)</span></p>
+        <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
         <br>
       </div>
       <div class="sub-column team-score">
