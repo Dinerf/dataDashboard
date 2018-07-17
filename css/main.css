@@ -192,14 +192,14 @@ p.name {
   width: 100%;
 }
 
-.angle {
+/* .angle {
   color: rgb(240, 231, 231);
 }
 i.angle:hover {
   color: #FFE521;
-}
+} */
 
-ul li#selectedBranch, ul li#selectedClass {
+ul li#selectedBranch, ul li#selectedClass, ul li#selectedSprint {
   display: block;
   position: relative;
   border-radius: 10px;
@@ -207,7 +207,7 @@ ul li#selectedBranch, ul li#selectedClass {
   height: 40px;
 }
 
-ul li#selectedClass {
+ul li#selectedClass, ul li#selectedSprint {
   width: 80px;
 }
 
@@ -219,7 +219,7 @@ ul li#selectedBranch > span {
   font-size: 100%;
 }
 
-#dropdownBranch, #dropdownClass {
+#dropdownBranch, #dropdownClass, #dropdownSprint {
   position: absolute;
   top: 100%;
   left: 0%;
@@ -239,17 +239,8 @@ header li ul {
   display: none;
 }
 
-li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass {
+li#selectedBranch:hover ul#dropdownBranch, li#selectedClass:hover ul#dropdownClass, li#selectedSprint:hover ul#dropdownSprint, header ul:hover li {
   display: block;
-}
-
-
-/* ul#dropdownClass i:hover ul.dropSprint {
-  display:block;
-} */
-
-
-li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass, ul#dropdownClass li:hover ul.dropSprint {
   width: 100%;
   height: 50px;
   background-color: rgb(240, 231, 231);
@@ -259,7 +250,7 @@ header ul li:hover {
   background-color: #FF009E;
 }
 
-#ulSelectedBranch, #ulSelectedClass {
+#ulSelectedBranch, #ulSelectedClass, #ulSelectedSprint {
   width: auto;
 }
 
@@ -267,3 +258,6 @@ ul#dropdownBranch {
   font-size: 70%;
 }
 
+#headerClass, #headerSprint {
+  display: none;
+}
