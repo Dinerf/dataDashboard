@@ -79,15 +79,18 @@ var aboveAvgSum;
 var underAvgSum;
 var numAboveAvg;
 var numUnderAvg;
+var noPoints;
 //variáveis para cálculo de média em tech skills
 var aboveAvgTech;
 var underAvgTech;
+var noPointsTech;
 var numAboveAvgTech;
 var numUnderAvgTech;
 var sumTechPointsStudent;
 //variáveis para cálculo de média em soft skills
 var aboveAvgSoft;
 var underAvgSoft;
+var noPointsSoft;
 var numAboveAvgSoft;
 var numUnderAvgSoft;
 var sumSoftPointsStudent;
@@ -143,7 +146,6 @@ function loadPrincipalData() {
   } else {
     document.getElementById('principal').innerHTML = '';
   }
-  console.log(dropdownClass !== '20181');
 }
 
 function clearClasses() {
@@ -320,6 +322,11 @@ function getBranchData() {
     numClasses += 1;
   }
 
+  //Cálculo do número de alunas que não ponturaram na sede
+  console.log(numOfStudents);
+  console.log(sprtAttendeesSoftPts / numSprints);
+  noPoints = numOfStudents - (sprtAttendeesSoftPts / numSprints);
+
   //Cálculo da satisfação das Alunas
   happyStudents = Math.round((sumExceedsExpectations + sumMeetsExpectations) / numSprints);
 
@@ -387,25 +394,27 @@ function getClassData() {
 
   for (var b in data) {
     branch = b;
-    console.log(b);
     for (var c in data[branch]) {
       branchClass = c;
 
       for (var s in data[branch][branchClass]['students']) {
         student = data[branch][branchClass]['students'][s];
 
+        if (branch === dropdownBranch && branchClass === dropdownClass) {
+          numOfStudents += 1;
+
+          //calcula o número de estudantes ativas e inativas dessa turma
+          if (student['active'] === true) {
+            numOfActiveStudents += 1;
+          } else if (student['active'] === false) {
+            numOfInactiveStudents += 1;
+          }
+        }
+
         for (sp in student['sprints']) {
 
           //pega o número de estudantes dessa turma
           if (branch === dropdownBranch && branchClass === dropdownClass) {
-            numOfStudents += 1;
-
-            //calcula o número de estudantes ativas e inativas dessa turma
-            if (student['active'] === true) {
-              numOfActiveStudents += 1;
-            } else if (student['active'] === false) {
-              numOfInactiveStudents += 1;
-            }
 
             // Pega dados para calcular a média de tech points da turma
             techPoints = student['sprints'][sp]['score']['tech'];
@@ -494,11 +503,6 @@ function getClassData() {
 
   //Cálculo da média dos MENTORES
   mentorsScore = Math.round((sumMentorsScore / numSprints) * 10) / 10;
-
-  //Cálculo do número de alunas (total / ativas e inativas) da turma
-  numOfStudents = numOfStudents / numSprints;
-  numOfActiveStudents = numOfActiveStudents / numSprints;
-  numOfInactiveStudents = numOfInactiveStudents / numSprints;
 
   //Cálculo da porcentagem das alunas ativas e inativas
   perctOfActiveStudents = Math.round((numOfActiveStudents * 100) / numOfStudents);
@@ -679,6 +683,7 @@ function createMainDashboard() {
         <p>Meta: <span class="status-principal">70%</span></p>
         <p>Acima da meta: <span class="status-principal">${numAboveAvg} (${aboveAvg})</span></p>
         <p>Abaixo da meta: <span class="status-principal">${numUnderAvg} (${underAvg})</span></p>
+        <p>Não pontuou: <span class="status-principal">${noPoints} (PORCENTAGENS!)</span></p>
         <br>
       </div>
       <div class="sub-column detailed-score">
@@ -688,6 +693,7 @@ function createMainDashboard() {
         <p>Meta: <span class="status-principal">70%</span></p>
         <p>Acima da meta: <span class="status-principal">${numAboveAvgTech} (${aboveAvgTech}%)</span></p>
         <p>Abaixo da meta: <span class="status-principal">${numUnderAvgTech} (${underAvgTech}%)</span></p>
+        <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
         <br>
         <h3>Desempenho em Soft Skills:</h3>
         <p>Média: <span class="status-principal">${classSoftAvgScore}%</span></p>
@@ -695,6 +701,7 @@ function createMainDashboard() {
         <p>Meta: <span class="status-principal">70%</span></p>
         <p>Acima da meta: <span class="status-principal">${numAboveAvgSoft} (${aboveAvgSoft}%)</span></p>
         <p>Abaixo da meta: <span class="status-principal">${numUnderAvgSoft} (${underAvgSoft}%)</span></p>
+        <p>Não pontuou: <span class="status-principal">DADOS! (PORCENTAGENS!)</span></p>
         <br>
       </div>
       <div class="sub-column team-score">
