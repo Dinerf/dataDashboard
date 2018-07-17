@@ -666,7 +666,13 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
+<<<<<<< HEAD
   document.getElementById('numOfStudents').textContent = numOfStudents; 
+=======
+  document.getElementById('numOfStudents').textContent = numOfStudents;
+  console.log(document.getElementById('numOfStudents').textContent);
+
+>>>>>>> 7b7a7e91f94237f0cc36e4c77504c7b415825922
   document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
   document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
   document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
