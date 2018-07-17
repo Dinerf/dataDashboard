@@ -674,7 +674,7 @@ function getSprintData() {
 function createMainDashboard() {
   document.getElementById('noPoints').textContent = ABC;
   document.getElementById('aaa').textContent = ABC;
-  
+
   // var template = `
   //   <h2>${dashbTitle}</h2>
   //   <div class="container-sub-column">
@@ -728,10 +728,10 @@ function createMainDashboard() {
   //     </div>
   //   </div>
   // `
-  // var mainDashboard = document.createElement('div');
-  // mainDashboard.setAttribute('class', 'flexCol data')
-  // mainDashboard.innerHTML = template;
-  // document.getElementById('principal').appendChild(mainDashboard);
+  var mainDashboard = document.createElement('div');
+  mainDashboard.setAttribute('class', 'flexCol data')
+  mainDashboard.innerHTML = template;
+  document.getElementById('principal').appendChild(mainDashboard);
 }
 
 var studentPhoto;
