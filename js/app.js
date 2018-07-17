@@ -142,11 +142,14 @@ function dropdownBranch(event) {
 
 function loadPrincipalData() {
   dropdownClass = document.getElementById('headerClass').textContent;
+  dropdownSprint = document.getElementById('headerSprint').textContent;
   console.log(dropdownClass);
 
-  if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma') {
+  if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint !== 'Sprint') {
+    getSprintData();
+  } else if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint === 'Sprint') {
     getClassData();
-  } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma') {
+  } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma' && dropdownSprint === 'Sprint') {
     getBranchData();
   } else {
     document.getElementById('principal').innerHTML = '';
@@ -176,24 +179,24 @@ function dropdownClasses() {
 
 function selectClass(event) {
   document.getElementById('headerClass').textContent = event.target.textContent;
+  loadPrincipalData()
 }
 
 function dropdownSprint(event) {
   clearSprint();
   document.getElementById('headerSprint').style.display = "block";
   var classes = event.target.textContent;
-  console.log(classes);
   for (var i in data[dropdownBranch][classes]['ratings']) {
     var sprint = "Sprint " + data[dropdownBranch][classes]['ratings'][i]['sprint'];
     var sprintMenu = document.createElement('li');
     sprintMenu.textContent = sprint;
     document.getElementById('dropdownSprint').appendChild(sprintMenu);
   }
-  loadPrincipalData();
 }
 
 function selectSprint(event) {
   document.getElementById('headerSprint').textContent = event.target.textContent;
+  loadPrincipalData();
 }
 
 function clearSprint() {
@@ -204,30 +207,6 @@ function clearSprint() {
   dropdownSprint.setAttribute('id', 'dropdownSprint');
   document.getElementById('selectedSprint').appendChild(dropdownSprint);
   document.getElementById('headerSprint').textContent = "Sprint";
-}
-
-
-
-
-// function selectSprint(event) {
-//   var theTarget = event.target.value;
-
-//   for (var i in data[dropdownBranch][headerClass]['ratings'][i]['sprint']) {
-
-//  }
-
-//   // .style.display = 'block';
-// }
-
-{/* <i class="fas angle fa-angle-double-right"> */}
-
-
-//Em andamento
-function getBranchData() {
-  numOfStudents = 0;
-  numOfActiveStudents = 0;
-  numOfInactiveStudents = 0;
-
 }
 
 function getBranchData() {
@@ -584,12 +563,10 @@ function getSprintData() {
   numAboveAvg = 0;
   numUnderAvg = 0;
 
-  //definir branch como o valor selecionado no dropdown de sede
-  dropdownBranch = 'AQP';
-  //definir branchClass como o valor selecionado no dropdown de turma
-  dropdownClass = '2016-2';
-  //definir sprint como o valor selecionado no dropdown de sprint
-  dropdownSprint = 1;
+  document.getElementById('principal').innerHTML = '';
+
+  dropdownSprint = dropdownSprint.split(' ');
+  dropdownSprint = parseInt(dropdownSprint[1]);
 
   for (var b in data) {
     branch = b;
@@ -688,9 +665,10 @@ function getSprintData() {
   //Porcentagem das alunas satisfeitas com a Laboratoria
   happyStudents = exceedsExpectations + meetsExpectations;
 
+  dashbSprintTitle = dropdownSprint;
+  dashbClassTitle = dropdownClass;
+  dashbTitle = dashbBranchTitle + ': ' + dashbClassTitle + ': Sprint ' + dashbSprintTitle + ':';
   createMainDashboard();
-  console.log('olar');
-
 }
 
 function createMainDashboard() {
