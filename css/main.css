@@ -261,3 +261,24 @@ ul#dropdownBranch {
 #headerClass, #headerSprint {
   display: none;
 }
+
+#profileStudents {
+  display: none;
+}
+
+
+/* 
+::before::after
+perctOfActiveStudents
+perctOfInactiveStudents
+aboveAvg
+underAvg
+noPointsPercent
+aboveAvgTech
+underAvgTech
+noPointsTechPercent
+aboveAvgSoft
+underAvgSoft
+noPointsSoftPercent
+
+*/
