@@ -17,7 +17,7 @@ function loadFunctions() {
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener("click", dropdownBranch);
-  // document.getElementById('dropdownClass').onclick = dropdownClass();
+  document.getElementById('selectedClass').addEventListener('click', selectClass);
 }
 
 //Função que mostra ou esconde o conteúdo das tabs
@@ -114,8 +114,53 @@ function dropdownBranch(event) {
     dropdownBranch = 'SPA';
   }
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
+  clearClasses();
+  dropdownClasses();
   return dropdownBranch;
 }
+
+function clearClasses() {
+  var clearDropdownClasses = document.getElementById('dropdownClass');
+  var clearClasses = document.getElementById('selectedClass');
+  clearClasses.removeChild(clearDropdownClasses);
+  var dropdownClass = document.createElement('ul');
+  dropdownClass.setAttribute('id', 'dropdownClass');
+  document.getElementById('selectedClass').appendChild(dropdownClass);
+}
+
+function dropdownClasses() {
+  for (var classes in data[dropdownBranch]) {
+    var classesMenu = document.createElement('li');
+    classesMenu.setAttribute('class', 'classesMenu');
+    var classValue = document.createElement('span');
+    classValue.textContent = classes;
+    classesMenu.appendChild(classValue);
+    var dropSprint = document.createElement('ul');
+    dropSprint.setAttribute('class', 'dropSprint');
+    var sprint;
+    var sprintMenu;
+    for (var i in data[dropdownBranch][classes]['ratings']) {
+      sprint = "Sprint " + data[dropdownBranch][classes]['ratings'][i]['sprint'];
+      sprintMenu = document.createElement('li');
+      sprintMenu.setAttribute('class', 'classSprint')
+      sprintMenu.textContent = sprint;
+      dropSprint.appendChild(sprintMenu);
+    }
+    classesMenu.appendChild(dropSprint);
+    document.getElementById('dropdownClass').appendChild(classesMenu);
+  }  
+}
+
+function selectClass(event) {
+  var theTarget = event.target.textContent;
+  if(theTarget.match(/Sprint/)) {
+    
+  } else {
+    document.getElementById('headerClass').textContent = theTarget;
+  }
+  
+}
+
 
 //Em andamento
 function getBranchData() {

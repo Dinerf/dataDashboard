@@ -232,8 +232,11 @@ header li ul {
   display: none;
 }
 
-li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass, ul#dropdownClass li:hover ul.dropSprint {
+li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass {
   display: block;
+}
+
+li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass, ul#dropdownClass li:hover ul.dropSprint {
   width: 100%;
   height: 50px;
   background-color: rgb(240, 231, 231);
@@ -250,3 +253,4 @@ header ul li:hover {
 ul#dropdownBranch {
   font-size: 70%;
 }
+
