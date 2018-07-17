@@ -10,10 +10,10 @@ function loadFunctions() {
   students.style.display = 'none';
   team.style.display = 'none';
 
-  var tabs = document.getElementsByClassName('tab');
-  for (i = 0; i < tabs.length; i++) {
-    tabs[i].addEventListener('click', showHideTabs);
-  }
+  // var tabs = document.getElementsByClassName('tab');
+  // for (i = 0; i < tabs.length; i++) {
+  //   tabs[i].addEventListener('click', showHideTabs);
+  // }
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
@@ -24,24 +24,24 @@ function loadFunctions() {
 
 //Função que mostra ou esconde o conteúdo das tabs
 function showHideTabs(e) {
-  var selectedTab = e.target.dataset.selectedTab;
-  var principal = document.getElementById('principal');
-  var students = document.getElementById('students');
-  var team = document.getElementById('team');
+  // var selectedTab = e.target.dataset.selectedTab;
+  // var principal = document.getElementById('principal');
+  // var students = document.getElementById('students');
+  // var team = document.getElementById('team');
 
-  if (selectedTab === 'tab-principal') {
-    principal.style.display = 'flex';
-    students.style.display = 'none';
-    team.style.display = 'none';
-  } else if (selectedTab === 'tab-students') {
-    students.style.display = 'flex';
-    principal.style.display = 'none';
-    team.style.display = 'none';
-  } else if (selectedTab === 'tab-team') {
-    team.style.display = 'flex';
-    principal.style.display = 'none';
-    students.style.display = 'none';
-  }
+  // if (selectedTab === 'tab-principal') {
+  //   principal.style.display = 'flex';
+  //   students.style.display = 'none';
+  //   team.style.display = 'none';
+  // } else if (selectedTab === 'tab-students') {
+  //   students.style.display = 'flex';
+  //   principal.style.display = 'none';
+  //   team.style.display = 'none';
+  // } else if (selectedTab === 'tab-team') {
+  //   team.style.display = 'flex';
+  //   principal.style.display = 'none';
+  //   students.style.display = 'none';
+  // }
 }
 
 //variáveis do menu dropdownSprint
@@ -666,8 +666,38 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
-  // document.getElementById('noPoints').textContent = ABC;
-  // document.getElementById('aaa').textContent = ABC;
+  document.getElementById('numOfStudents').textContent = numOfStudents;
+  console.log(document.getElementById('numOfStudents').textContent);
+
+  document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
+  document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
+  document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
+  document.getElementById('perctOfInactiveStudents').textContent = perctOfInactiveStudents;
+  document.getElementById('classAvgScore').textContent = classAvgScore;
+  document.getElementById('numAboveAvg').textContent = numAboveAvg;
+  document.getElementById('aboveAvg').textContent = aboveAvg;
+  document.getElementById('numUnderAvg').textContent = numUnderAvg;
+  document.getElementById('underAvg').textContent = underAvg;
+  document.getElementById('noPoints').textContent = noPoints;
+  document.getElementById('noPointsPercent').textContent = noPointsPercent;
+  document.getElementById('classTechAvgScore').textContent = classTechAvgScore;
+  document.getElementById('numAboveAvgTech').textContent = numAboveAvgTech;
+  document.getElementById('aboveAvgTech').textContent = aboveAvgTech;
+  document.getElementById('numUnderAvgTech').textContent = numUnderAvgTech;
+  document.getElementById('underAvgTech').textContent = underAvgTech;
+  document.getElementById('noPointsTech').textContent = noPointsTech;
+  document.getElementById('noPointsTechPercent').textContent = noPointsTechPercent;
+  document.getElementById('classSoftAvgScore').textContent = classSoftAvgScore;
+  document.getElementById('numAboveAvgSoft').textContent = numAboveAvgSoft;
+  document.getElementById('aboveAvgSoft').textContent = aboveAvgSoft;
+  document.getElementById('numUnderAvgSoft').textContent = numUnderAvgSoft;
+  document.getElementById('underAvgSoft').textContent = underAvgSoft;
+  document.getElementById('noPointsSoft').textContent = noPointsSoft;
+  document.getElementById('noPointsSoftPercent').textContent = noPointsSoftPercent;
+  document.getElementById('npsScore').textContent = npsScore;
+  document.getElementById('happyStudents').textContent = happyStudents;
+  document.getElementById('jediMasterScore').textContent = jediMasterScore;
+  document.getElementById('mentorsScore').textContent = mentorsScore;
 }
 
 var studentPhoto;
