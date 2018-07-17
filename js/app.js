@@ -16,8 +16,9 @@ function loadFunctions() {
   }
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
-  document.getElementById('dropdownBranch').addEventListener("click", dropdownBranch);
+  document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
   document.getElementById('selectedClass').addEventListener('click', selectClass);
+  document.getElementsByClassName('angle').addEventListener('click', selectSprint);
 }
 
 //Função que mostra ou esconde o conteúdo das tabs
@@ -171,6 +172,13 @@ function selectClass(event) {
   } else {
     document.getElementById('headerClass').textContent = theTarget;
   }
+}
+
+function selectSprint(event) {
+  var theTarget = event.target;
+  alert(theTarget.textContent);
+  var sprint = $(theTarget > ul);
+  sprint.style.display = 'block';
   
 }
 
@@ -187,9 +195,10 @@ function getBranchData() {
       branchClass = c;
       for (var s in data[branch][branchClass]['students']) {
         student = data[branch][branchClass]['students'][s];
-
+      }
+    }
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
-
+  }
   if (dropdownBranch !== 'SPA') {
     getBranchData();
   } else {
@@ -359,10 +368,6 @@ function getBranchData() {
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
 
   createMainDashboard();
-}
-
-function dropdownClass() {
-  
 }
 
 function getClassData() {

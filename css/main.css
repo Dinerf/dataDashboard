@@ -192,6 +192,13 @@ p.name {
   width: 100%;
 }
 
+.angle {
+  color: rgb(240, 231, 231);
+}
+i.angle:hover {
+  color: #FFE521;
+}
+
 ul li#selectedBranch, ul li#selectedClass {
   display: block;
   position: relative;
@@ -235,6 +242,12 @@ header li ul {
 li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass {
   display: block;
 }
+
+
+/* ul#dropdownClass i:hover ul.dropSprint {
+  display:block;
+} */
+
 
 li#selectedBranch:hover ul#dropdownBranch, header ul:hover li, li#selectedClass:hover ul#dropdownClass, ul#dropdownClass li:hover ul.dropSprint {
   width: 100%;
