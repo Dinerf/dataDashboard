@@ -107,9 +107,6 @@ var sumMentorsScore;
 //Variáveis para o título do Dashboard
 var dashbBranchTitle;
 
-//Calculando número de sprints
-numSprints += 1;
-
 function dropdownBranch(event) {
   var theTarget = event.target.id;
   if (theTarget == 'aqp') {
@@ -130,7 +127,12 @@ function dropdownBranch(event) {
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
   clearClasses();
   dropdownClasses();
-  return dropdownBranch;
+
+  if (dropdownBranch !== 'SPA') {
+    getBranchData();
+  } else {
+    document.getElementById('principal').innerHTML = '';
+  }
 }
 
 function clearClasses() {
@@ -162,13 +164,13 @@ function dropdownClasses() {
     }
     classesMenu.appendChild(dropSprint);
     document.getElementById('dropdownClass').appendChild(classesMenu);
-  }  
+  }
 }
 
 function selectClass(event) {
   var theTarget = event.target.textContent;
   if(theTarget.match(/Sprint/)) {
-    
+
   } else {
     document.getElementById('headerClass').textContent = theTarget;
   }
@@ -179,31 +181,7 @@ function selectSprint(event) {
   alert(theTarget.textContent);
   var sprint = $(theTarget > ul);
   sprint.style.display = 'block';
-  
-}
 
-
-//Em andamento
-function getBranchData() {
-  numOfStudents = 0;
-  numOfActiveStudents = 0;
-  numOfInactiveStudents = 0;
-
-  for (var b in data) {
-    branch = b;
-    for (var c in data[branch]) {
-      branchClass = c;
-      for (var s in data[branch][branchClass]['students']) {
-        student = data[branch][branchClass]['students'][s];
-      }
-    }
-  document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
-  }
-  if (dropdownBranch !== 'SPA') {
-    getBranchData();
-  } else {
-    document.getElementById('principal').innerHTML = '';
-  }
 }
 
 function getBranchData() {
