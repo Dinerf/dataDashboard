@@ -43,14 +43,8 @@ var dropdownBranch;
 var dropdownClass;
 var dropdownSprint;
 //variáveis para acessar o banco de dados
-var branch;
-var branchClass;
-var sprint;
 var numSprints;
 var numClasses;
-var student;
-var studentName;
-var rating;
 //variáveis para cálculo de quantidade de alunas
 var numOfStudents;
 var numOfActiveStudents;
@@ -70,8 +64,6 @@ var classSoftAvgScore;
 //variáveis para cálculo de média geral da turma
 var aboveAvg;
 var underAvg;
-var aboveAvgSum;
-var underAvgSum;
 var numAboveAvg;
 var numUnderAvg;
 var noPoints;
@@ -231,7 +223,7 @@ function getBranchData() {
   for (var branch in data) {
     for (var branchClass in data[branch]) {
       for (var s in data[branch][branchClass]['students']) {
-        student = data[branch][branchClass]['students'][s];
+        var student = data[branch][branchClass]['students'][s];
         //Calculando o número total de alunas
         if (branch === dropdownBranch) {
           numOfStudents += 1;
@@ -254,7 +246,7 @@ function getBranchData() {
         }
       }
       //Desempenho da turma entre supera-cumple-no-cumple em porcentagem
-      rating = data[branch][branchClass]['ratings'];
+      var rating = data[branch][branchClass]['ratings'];
       for (sp in rating) {
         if (branch === dropdownBranch) {
           sumExceedsExpectations += rating[sp]['student']['supera'];
@@ -277,8 +269,7 @@ function getBranchData() {
         for (var st in data[branch][branchClass]['students']) {
           sumTechPointsStudent = 0;
           sumSoftPointsStudent = 0;
-          studentName = data[branch][branchClass]['students'][st]['name'];
-          sprint = data[branch][branchClass]['students'][st]['sprints'];
+          var sprint = data[branch][branchClass]['students'][st]['sprints'];
           for (var num in sprint) {
             techPoints = sprint[num]['score']['tech'];
             sumTechPointsStudent += techPoints;
@@ -377,12 +368,10 @@ function getClassData() {
   sumJediScore = 0;
   sumMentorsScore = 0;
 
-  for (var b in data) {
-    branch = b;
-    for (var c in data[branch]) {
-      branchClass = c;
+  for (var branch in data) {
+    for (var branchClass in data[branch]) {
       for (var s in data[branch][branchClass]['students']) {
-        student = data[branch][branchClass]['students'][s];
+        var student = data[branch][branchClass]['students'][s];
         if (branch === dropdownBranch && branchClass === dropdownClass) {
           numOfStudents += 1;
           //calcula o número de estudantes ativas e inativas dessa turma
@@ -407,7 +396,7 @@ function getClassData() {
         }
       }
       //Desempenho da turma entre supera-cumple-no-cumple em porcentagem
-      rating = data[dropdownBranch][dropdownClass]['ratings'];
+      var rating = data[dropdownBranch][dropdownClass]['ratings'];
       for (sp in rating) {
         if (branch === dropdownBranch && branchClass === dropdownClass) {
           sumExceedsExpectations += rating[sp]['student']['supera'];
@@ -430,8 +419,7 @@ function getClassData() {
         for (var st in data[branch][branchClass]['students']) {
           sumTechPointsStudent = 0;
           sumSoftPointsStudent = 0;
-          studentName = data[branch][branchClass]['students'][st]['name'];
-          sprint = data[branch][branchClass]['students'][st]['sprints'];
+          var sprint = data[branch][branchClass]['students'][st]['sprints'];
           for (var num in sprint) {
             techPoints = sprint[num]['score']['tech'];
             sumTechPointsStudent += techPoints;
@@ -477,14 +465,26 @@ function getClassData() {
   //Cálculo da média geral da turma:
   classAvgScore = Math.round((classTechAvgScore + classSoftAvgScore) / 2);
   //Cálculo de alunas acima / abaixo da média em TechSkills em porcentagem
-  aboveAvgTech = Math.round((numAboveAvgTech * 100) / (sprtAttendeesTechPts / numSprints));
-  underAvgTech = Math.round((numUnderAvgTech * 100) / (sprtAttendeesTechPts / numSprints));
+  aboveAvgTech = Math.round((numAboveAvgTech * 100) / numOfStudents);
+  underAvgTech = Math.round((numUnderAvgTech * 100) / numOfStudents);
   //Cálculo de alunas acima / abaixo da média em Softskills em porcentagem
-  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / (sprtAttendeesSoftPts / numSprints));
-  underAvgSoft = Math.round((numUnderAvgSoft * 100) / (sprtAttendeesSoftPts / numSprints));
+  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / numOfStudents);
+  underAvgSoft = Math.round((numUnderAvgSoft * 100) / numOfStudents);
   //Cálculo de porcentagem de alunas acima / abaixo da média
   aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
+  //Cálculo do número de alunas que não ponturaram na sede
+  noPoints = numOfStudents - (numAboveAvg + numUnderAvg);
+  //Cálculo da porcentagem de alunas que não ponturaram na sede
+  noPointsPercent = Math.round((noPoints * 100) / numOfStudents);
+  //Cálculo do número de alunas que não ponturaram na sede em TechSkills
+  noPointsTech = numOfStudents - (numAboveAvgTech + numUnderAvgTech);
+  //Cálculo da porcentagem de alunas que não ponturaram na sede em TechSkills
+  noPointsTechPercent = Math.round((noPointsTech * 100) / numOfStudents);
+  //Cálculo do número de alunas que não ponturaram na sede em SoftSkills
+  noPointsSoft = numOfStudents - (numAboveAvgSoft + numUnderAvgSoft);
+  //Cálculo da porcentagem de alunas que não ponturaram na sede em SoftSkills
+  noPointsSoftPercent = Math.round((noPointsSoft * 100) / numOfStudents);
   dashbClassTitle = dropdownClass;
   dashbTitle = dashbBranchTitle + ': ' + dashbClassTitle + ':';
   createMainDashboard();
@@ -508,22 +508,24 @@ function getSprintData() {
   dropdownSprint = dropdownSprint.split(' ');
   dropdownSprint = parseInt(dropdownSprint[1]);
 
-  for (var b in data) {
-    branch = b;
-    for (var c in data[branch]) {
-      branchClass = c;
+  for (var branch in data) {
+    for (var branchClass in data[branch]) {
       for (var s in data[branch][branchClass]['students']) {
-        student = data[branch][branchClass]['students'][s];
+        var student = data[branch][branchClass]['students'][s];
+        //pega o número de estudantes desse sprint
+        if (branch === dropdownBranch && branchClass === dropdownClass) {
+          numOfStudents += 1;
+          //calcula o número de estudantes ativas e inativas desse sprint
+          if (student['active'] === true) {
+            numOfActiveStudents += 1;
+          } else if (student['active'] === false) {
+            numOfInactiveStudents += 1;
+          }
+        }
+
         for (sp in student['sprints']) {
           //pega o número de estudantes desse sprint
           if (branch === dropdownBranch && branchClass === dropdownClass && student['sprints'][sp]['number'] === dropdownSprint) {
-            numOfStudents += 1;
-            //calcula o número de estudantes ativas e inativas desse sprint
-            if (student['active'] === true) {
-              numOfActiveStudents += 1;
-            } else if (student['active'] === false) {
-              numOfInactiveStudents += 1;
-            }
             //Pega dados para calcular a média de tech points da turma
             techPoints = student['sprints'][sp]['score']['tech'];
             techPointsSum += techPoints;
@@ -553,9 +555,9 @@ function getSprintData() {
         }
       }
       //Desempenho da turma entre supera-cumple-no-cumple em porcentagem
-      rating = data[dropdownBranch][dropdownClass]['ratings'];
+      var rating = data[dropdownBranch][dropdownClass]['ratings'];
       for (sp in rating) {
-        if (branch === dropdownBranch && branchClass === dropdownClass && student['sprints'][sp]['number'] === dropdownSprint) {
+        if (branch === dropdownBranch && branchClass === dropdownClass && data[branch][branchClass]['ratings'][sp]['sprint'] === dropdownSprint) {
           exceedsExpectations = rating[sp]['student']['supera'];
           meetsExpectations = rating[sp]['student']['cumple'];
           //Pegando dados de avaliação da Laboratória
@@ -576,14 +578,26 @@ function getSprintData() {
   //Cálculo da média geral da turma:
   classAvgScore = Math.round((classTechAvgScore + classSoftAvgScore) / 2);
   //Cálculo de alunas acima / abaixo da média em TechSkills em porcentagem
-  aboveAvgTech = Math.round((numAboveAvgTech * 100) / sprtAttendeesTechPts);
-  underAvgTech = Math.round((numUnderAvgTech * 100) / sprtAttendeesTechPts);
+  aboveAvgTech = Math.round((numAboveAvgTech * 100) / numOfStudents);
+  underAvgTech = Math.round((numUnderAvgTech * 100) / numOfStudents);
   //Cálculo de alunas acima / abaixo da média em Softskills em porcentagem
-  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / sprtAttendeesSoftPts);
-  underAvgSoft = Math.round((numUnderAvgSoft * 100) / sprtAttendeesSoftPts);
+  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / numOfStudents);
+  underAvgSoft = Math.round((numUnderAvgSoft * 100) / numOfStudents);
   //Cálculo de porcentagem de alunas acima / abaixo da média
-  aboveAvg = Math.round((numAboveAvg * 100) / sprtAttendeesTechPts);
-  underAvg = Math.round((numUnderAvg * 100) / sprtAttendeesTechPts);
+  aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
+  underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
+  //Cálculo do número de alunas que não ponturaram na sede
+  noPoints = numOfStudents - (numAboveAvg + numUnderAvg);
+  //Cálculo da porcentagem de alunas que não ponturaram na sede
+  noPointsPercent = Math.round((noPoints * 100) / numOfStudents);
+  //Cálculo do número de alunas que não ponturaram na sede em TechSkills
+  noPointsTech = numOfStudents - (numAboveAvgTech + numUnderAvgTech);
+  //Cálculo da porcentagem de alunas que não ponturaram na sede em TechSkills
+  noPointsTechPercent = Math.round((noPointsTech * 100) / numOfStudents);
+  //Cálculo do número de alunas que não ponturaram na sede em SoftSkills
+  noPointsSoft = numOfStudents - (numAboveAvgSoft + numUnderAvgSoft);
+  //Cálculo da porcentagem de alunas que não ponturaram na sede em SoftSkills
+  noPointsSoftPercent = Math.round((noPointsSoft * 100) / numOfStudents);
   //Porcentagem das alunas satisfeitas com a Laboratoria
   happyStudents = exceedsExpectations + meetsExpectations;
   dashbSprintTitle = dropdownSprint;
@@ -595,7 +609,7 @@ function getSprintData() {
 function createMainDashboard() {
   document.getElementById('dashbTitle').textContent = dashbTitle;
   document.getElementById('dashTeamTitle').textContent = dashbTitle;
-  document.getElementById('numOfStudents').textContent = numOfStudents; 
+  document.getElementById('numOfStudents').textContent = numOfStudents;
   document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
   document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
   document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
@@ -714,7 +728,7 @@ function principalChart() {
   var principalChart = document.getElementById('principalChart').getContext('2d');
   var thePrincipalChart = new Chart(principalChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [numOfActiveStudents, numOfInactiveStudents],
         backgroundColor: ['rgba(255, 0, 158, 1)', 'rgba(86, 248, 154, 1)']
@@ -734,7 +748,7 @@ function mediaChart() {
   var mediaChart = document.getElementById('mediaChart').getContext('2d');
   var themediaChart = new Chart(mediaChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [classAvgScore, 100 - classAvgScore],
         backgroundColor: ['rgba(255, 0, 158, 1)']
@@ -754,7 +768,7 @@ function techMediaChart() {
   var techMediaChart = document.getElementById('techMediaChart').getContext('2d');
   var thetechMediaChart = new Chart(techMediaChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [classTechAvgScore, 100 - classTechAvgScore],
         backgroundColor: ['rgba(255, 0, 158, 1)'],
@@ -764,7 +778,7 @@ function techMediaChart() {
     options: {
       legend: {display: true, position: 'bottom', reverse: true},
       title: {display: true, text: 'MÉDIA TECH SKILLS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
-      cutoutPercentage: 70, 
+      cutoutPercentage: 70,
     }
   });
 }
@@ -774,7 +788,7 @@ function softMediaChart() {
   var softMediaChart = document.getElementById('softMediaChart').getContext('2d');
   var thesoftMediaChart = new Chart(softMediaChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [classSoftAvgScore, 100 - classSoftAvgScore],
         backgroundColor: ['rgba(255, 0, 158, 1)'],
@@ -784,7 +798,7 @@ function softMediaChart() {
     options: {
       legend: {display: true, position: 'bottom', reverse: true},
       title: {display: true, text: 'MÉDIA SOFT SKILLS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
-      cutoutPercentage: 70, 
+      cutoutPercentage: 70,
     }
   });
 }
@@ -795,7 +809,7 @@ function abvMediaChart() {
   var abvMediaChart = document.getElementById('abvMediaChart').getContext('2d');
   var theabvMediaChart = new Chart(abvMediaChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [numAboveAvg, numUnderAvg],
         backgroundColor: ['rgba(86, 248, 154, 1)', 'rgba(255, 0, 158, 1)']
@@ -816,7 +830,7 @@ function abvTechMediaChart() {
   var abvTechMediaChart = document.getElementById('abvTechMediaChart').getContext('2d');
   var theabvTechMediaChart = new Chart(abvTechMediaChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [numAboveAvgTech, numUnderAvgTech],
         backgroundColor: ['rgba(86, 248, 154, 1)', 'rgba(255, 0, 158, 1)']
@@ -837,7 +851,7 @@ function abvSoftMediaChart() {
   var abvSoftMediaChart = document.getElementById('abvSoftMediaChart').getContext('2d');
   var theabvSoftMediaChart = new Chart(abvSoftMediaChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [numAboveAvgSoft, numUnderAvgSoft],
         backgroundColor: ['rgba(86, 248, 154, 1)', 'rgba(255, 0, 158, 1)']
@@ -857,7 +871,7 @@ function npsScoreChart() {
   var npsScoreChart = document.getElementById('npsScoreChart').getContext('2d');
   var thenpsScoreChart = new Chart(npsScoreChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [npsScore, 100 - npsScore],
         backgroundColor: ['rgba(255, 0, 158, 1)'],
@@ -867,7 +881,7 @@ function npsScoreChart() {
     options: {
       legend: {display: true, position: 'bottom', reverse: true},
       title: {display: true, text: 'NET PROMOTER SCORE (NPS)', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
-      cutoutPercentage: 70, 
+      cutoutPercentage: 70,
     }
   });
 }
@@ -877,7 +891,7 @@ function happyStudentsChart() {
   var happyStudentsChart = document.getElementById('happyStudentsChart').getContext('2d');
   var thehappyStudentsChart = new Chart(happyStudentsChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [happyStudents, 100 - happyStudents],
         backgroundColor: ['rgba(255, 0, 158, 1)'],
@@ -887,7 +901,7 @@ function happyStudentsChart() {
     options: {
       legend: {display: true, position: 'bottom', reverse: true},
       title: {display: true, text: 'ALUNAS SATISFEITAS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
-      cutoutPercentage: 70, 
+      cutoutPercentage: 70,
     }
   });
 }
@@ -897,7 +911,7 @@ function jediMasterScoreChart() {
   var jediMasterScoreChart = document.getElementById('jediMasterScoreChart').getContext('2d');
   var thejediMasterScoreChart = new Chart(jediMasterScoreChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [jediMasterScore, Math.round(5 - jediMasterScore)],
         backgroundColor: ['rgba(255, 0, 158, 1)'],
@@ -907,7 +921,7 @@ function jediMasterScoreChart() {
     options: {
       legend: {display: true, position: 'bottom', reverse: true},
       title: {display: true, text: 'DESEMPENHO JEDIS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
-      cutoutPercentage: 70, 
+      cutoutPercentage: 70,
     }
   });
 }
@@ -917,7 +931,7 @@ function mentorsScoreChart() {
   var mentorsScoreChart = document.getElementById('mentorsScoreChart').getContext('2d');
   var thementorsScoreChart = new Chart(mentorsScoreChart, {
     type: 'doughnut',
-    data: {      
+    data: {
       datasets: [{
         data: [mentorsScore, Math.round(5 - mentorsScore)],
         backgroundColor: ['rgba(255, 0, 158, 1)'],
@@ -927,7 +941,7 @@ function mentorsScoreChart() {
     options: {
       legend: {display: true, position: 'bottom', reverse: true},
       title: {display: true, text: 'DESEMPENHO MENTORES', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
-      cutoutPercentage: 70, 
+      cutoutPercentage: 70,
     }
   });
 }
