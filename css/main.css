@@ -266,7 +266,6 @@ ul#dropdownBranch {
   display: none;
 }
 
-
 #perctOfActiveStudents::before, #perctOfInactiveStudents::before, #aboveAvg::before, #underAvg::before, #noPointsPercent::before, #aboveAvgTech::before, #underAvgTech::before, #noPointsTechPercent::before, #aboveAvgSoft::before, #underAvgSoft::before, #noPointsSoftPercent::before {
   content: " (";
 }
