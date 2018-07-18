@@ -93,13 +93,18 @@ main {
 
 #tabMenu {
   margin-bottom: 1%;
+  border-bottom: 2px solid lightgray;
+}
+
+.data-students:first-child {
+  margin-top: 0.5%;
 }
 
 #tabMenu ul {
-  width: 18%;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  font-size: 120%;
+  justify-content: center;
+  font-size: 110%;
 }
 
 .tab {
@@ -130,12 +135,20 @@ main {
   margin: 1% 0;
 }
 
-.container-sub-column {
-  display: flex;
+.subConteiner {
+  justify-content: center;
+}
+
+.data-studentes, .total-score, .detailed-score {
+  margin: 0 2%;
+}
+
+.team-score {
+  margin: 0 8%;
 }
 
 .sub-column {
-  flex: 2;
+  width: 20%;
 }
 
 div.sub-column > p {
@@ -152,6 +165,21 @@ div.sub-column > p {
   padding: 0% 0;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+
+#dashbTitle, #dashTeamTitle {
+  font-size: 100%;
+  font-weight: normal;
+  font-family: "Bitter-Regular";
+  margin: 1% 0 0 0;
+  width: 100%;
+}
+
+.overviewConteiner {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 0 3%;
+  width: 94%;
 }
 
 .studentCard {
@@ -199,16 +227,32 @@ i.angle:hover {
   color: #FFE521;
 } */
 
+#headerBranch {
+  white-space: nowrap;
+  display: inline-block;
+  margin-top: 5%;
+  padding: 0 4% 0 2%;
+}
+
+#headerClass, #headerSprint {
+  font-family: "Bitter-Regular";
+}
+
+
 ul li#selectedBranch, ul li#selectedClass, ul li#selectedSprint {
   display: block;
   position: relative;
   border-radius: 10px;
-  width: 150px;
   height: 40px;
 }
 
 ul li#selectedClass, ul li#selectedSprint {
   width: 80px;
+}
+
+ul li#selectedBranch {
+  width: auto;
+  min-width: 150px;
 }
 
 ul li#selectedBranch {
@@ -274,11 +318,15 @@ ul#dropdownBranch {
   content: "%)";
 }
 
+#classAvgScore::after, #classTechAvgScore::after, #classSoftAvgScore::after, #npsScore::after, #happyStudents::after {
+  content: "%"
+}
+
 #principalChartDiv {
   width: 30%;
   height: 30%;
   justify-content: flex-end;
-  margin: 5% 0 0 5%;
+  margin: 4% 0 0 5%;
 }
 
 #performanceCharts {
@@ -293,4 +341,14 @@ ul#dropdownBranch {
   height: 28%;
   margin: 0 1% 5%;
   vertical-align: top;
+}
+
+#npsScoreDiv, #happyStudentsDiv, #jediMasterScoreDiv, #mentorsScoreDiv {
+  width: 28%;
+  height: 28%;
+  margin: 0 1% 5%;
+  vertical-align: top;
+}
+#teamCharts {
+  width: 100%;
 }
