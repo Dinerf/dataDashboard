@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   </head>
   <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <header class="flexRow">
       <img id="logo" src="assets/images/isotipo/RGB/Laboratoria_RGB_logo-11.png" alt="">
       <div class="flexRow topMenu">
@@ -44,9 +45,36 @@
           <li class="tab title" data-selected-tab="tab-students" id="tabStudents">Alunas</li>
           <li class="tab title" data-selected-tab="tab-team">Equipe</li>
         </ul>
+        <hr>
       </nav>
       <section id="principal" class="flexCol">
+        <div class="flexRow">
+          <div id="principalChartDiv" class="flexRow">
+            <canvas id="principalChart"></canvas>
+          </div>
+          <div id="performanceCharts" class="flexRow">
+            <div id="mediaChartDiv">
+              <canvas id="mediaChart"></canvas>
+            </div>
+            <div id="techMediaChartDiv">
+              <canvas id="techMediaChart"></canvas>
+            </div>
+            <div id="softMediaChartDiv">
+              <canvas id="softMediaChart"></canvas>
+            </div>
+            <div id="abvMediaChartDiv">
+                <canvas id="abvMediaChart"></canvas>
+            </div>
+            <div id="abvTechMediaChartDiv">
+              <canvas id="abvTechMediaChart"></canvas>
+            </div>
+            <div id="abvSoftMediaChartDiv">
+              <canvas id="abvSoftMediaChart"></canvas>
+            </div>
+          </div>
+        </div>
         <h2 id="dashbTitle"></h2>
+        <br>
         <div class="container-sub-column">
           <div class="sub-column data-students">
             <h3>Alunas e Presença:</h3>
@@ -125,9 +153,8 @@
 
     </footer>
 
-		<!-- Base de datos -->
 		<script src="./js/data.js"></script>
-		<!-- Aquí va tus archivos JS -->
     <script src="./js/app.js"></script>
+
   </body>
 </html>

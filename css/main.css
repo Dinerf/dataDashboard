@@ -103,7 +103,7 @@ main {
 }
 
 .tab {
-  margin: 0% 3%;
+  margin: 0% 3% 1%;
   padding: 0% 2%;
   border-bottom: 3px solid transparent;
   cursor: pointer;
@@ -258,7 +258,7 @@ ul#dropdownBranch {
   font-size: 70%;
 }
 
-#headerClass, #headerSprint {
+#ulSelectedClass, #ulSelectedSprint {
   display: none;
 }
 
@@ -267,18 +267,31 @@ ul#dropdownBranch {
 }
 
 
-/* 
-::before::after
-perctOfActiveStudents
-perctOfInactiveStudents
-aboveAvg
-underAvg
-noPointsPercent
-aboveAvgTech
-underAvgTech
-noPointsTechPercent
-aboveAvgSoft
-underAvgSoft
-noPointsSoftPercent
+#perctOfActiveStudents::before, #perctOfInactiveStudents::before, #aboveAvg::before, #underAvg::before, #noPointsPercent::before, #aboveAvgTech::before, #underAvgTech::before, #noPointsTechPercent::before, #aboveAvgSoft::before, #underAvgSoft::before, #noPointsSoftPercent::before {
+  content: " (";
+}
 
-*/
+#perctOfActiveStudents::after, #perctOfInactiveStudents::after, #aboveAvg::after, #underAvg::after, #noPointsPercent::after, #aboveAvgTech::after, #underAvgTech::after, #noPointsTechPercent::after, #aboveAvgSoft::after, #underAvgSoft::after, #noPointsSoftPercent::after {
+  content: "%)";
+}
+
+#principalChartDiv {
+  width: 30%;
+  height: 30%;
+  justify-content: flex-end;
+  margin: 5% 0 0 5%;
+}
+
+#performanceCharts {
+  flex-wrap: wrap;
+  width: 60%;
+  justify-content: flex-start;
+  margin-right: 3%;
+}
+
+#mediaChartDiv, #techMediaChartDiv, #softMediaChartDiv, #abvMediaChartDiv, #abvTechMediaChartDiv, #abvSoftMediaChartDiv {
+  width: 28%;
+  height: 28%;
+  margin: 0 1% 5%;
+  vertical-align: top;
+}

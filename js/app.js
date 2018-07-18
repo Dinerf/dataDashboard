@@ -6,15 +6,14 @@ function loadFunctions() {
   var students = document.getElementById('students');
   var team = document.getElementById('team');
 
-  principal.style.display = 'flex';
+  principal.style.display = 'none';
   students.style.display = 'none';
   team.style.display = 'none';
 
-  // var tabs = document.getElementsByClassName('tab');
-  // for (i = 0; i < tabs.length; i++) {
-  //   tabs[i].addEventListener('click', showHideTabs);
-  // }
-
+  var tabs = document.getElementsByClassName('tab');
+  for (i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener('click', showHideTabs);
+  }
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
   document.getElementById('selectedClass').addEventListener('click', selectClass);
@@ -24,24 +23,24 @@ function loadFunctions() {
 
 //Função que mostra ou esconde o conteúdo das tabs
 function showHideTabs(e) {
-  // var selectedTab = e.target.dataset.selectedTab;
-  // var principal = document.getElementById('principal');
-  // var students = document.getElementById('students');
-  // var team = document.getElementById('team');
+  var selectedTab = e.target.dataset.selectedTab;
+  var principal = document.getElementById('principal');
+  var students = document.getElementById('students');
+  var team = document.getElementById('team');
 
-  // if (selectedTab === 'tab-principal') {
-  //   principal.style.display = 'flex';
-  //   students.style.display = 'none';
-  //   team.style.display = 'none';
-  // } else if (selectedTab === 'tab-students') {
-  //   students.style.display = 'flex';
-  //   principal.style.display = 'none';
-  //   team.style.display = 'none';
-  // } else if (selectedTab === 'tab-team') {
-  //   team.style.display = 'flex';
-  //   principal.style.display = 'none';
-  //   students.style.display = 'none';
-  // }
+  if (selectedTab === 'tab-principal') {
+    principal.style.display = 'flex';
+    students.style.display = 'none';
+    team.style.display = 'none';
+  } else if (selectedTab === 'tab-students') {
+    students.style.display = 'flex';
+    principal.style.display = 'none';
+    team.style.display = 'none';
+  } else if (selectedTab === 'tab-team') {
+    team.style.display = 'flex';
+    principal.style.display = 'none';
+    students.style.display = 'none';
+  }
 }
 
 //variáveis do menu dropdownSprint
@@ -132,8 +131,8 @@ function dropdownBranch(event) {
     dropdownBranch = 'SPA';
   }
   document.getElementById('headerBranch').innerHTML = document.getElementById(theTarget).textContent;
-  document.getElementById('headerClass').style.display = "block";
-  document.getElementById('headerSprint').style.display = "none";
+  document.getElementById('ulSelectedClass').style.display = "block";
+  document.getElementById('ulSelectedSprint').style.display = "none";
 
   clearClasses();
   dropdownClasses();
@@ -184,7 +183,7 @@ function selectClass(event) {
 
 function dropdownSprint(event) {
   clearSprint();
-  document.getElementById('headerSprint').style.display = "block";
+  document.getElementById('ulSelectedSprint').style.display = "block";
   var classes = event.target.textContent;
   for (var i in data[dropdownBranch][classes]['ratings']) {
     var sprint = "Sprint " + data[dropdownBranch][classes]['ratings'][i]['sprint'];
@@ -666,13 +665,8 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
-<<<<<<< HEAD
+  document.getElementById('dashbTitle').textContent = dashbTitle; 
   document.getElementById('numOfStudents').textContent = numOfStudents; 
-=======
-  document.getElementById('numOfStudents').textContent = numOfStudents;
-  console.log(document.getElementById('numOfStudents').textContent);
-
->>>>>>> 7b7a7e91f94237f0cc36e4c77504c7b415825922
   document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
   document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
   document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
@@ -702,6 +696,13 @@ function createMainDashboard() {
   document.getElementById('happyStudents').textContent = happyStudents;
   document.getElementById('jediMasterScore').textContent = jediMasterScore;
   document.getElementById('mentorsScore').textContent = mentorsScore;
+  principalChart();
+  mediaChart();
+  techMediaChart();
+  softMediaChart();
+  abvMediaChart();
+  abvTechMediaChart();
+  abvSoftMediaChart();
 }
 
 var studentPhoto;
@@ -773,3 +774,154 @@ function createStudentCard() {
   studentCard.innerHTML = template;
   document.getElementById('students').appendChild(studentCard);
 }
+
+// GRÁFICOS
+
+function principalChart() {
+  var numOfActiveStudents = document.getElementById('numOfActiveStudents').textContent;
+  var numOfInactiveStudents = document.getElementById('numOfInactiveStudents').textContent;
+  var principalChart = document.getElementById('principalChart').getContext('2d');
+  var thePrincipalChart = new Chart(principalChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [numOfActiveStudents, numOfInactiveStudents],
+        backgroundColor: ['rgba(255, 0, 158, 1)', 'rgba(86, 248, 154, 1)']
+      }],
+      labels : ['Inativas','Ativas']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: true},
+      title: {display: true, text: 'TOTAL DE ALUNAS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70
+    }
+  });
+}
+
+function mediaChart() {
+  var classAvgScore = document.getElementById('classAvgScore').textContent;
+  var mediaChart = document.getElementById('mediaChart').getContext('2d');
+  var themediaChart = new Chart(mediaChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [classAvgScore, 100 - classAvgScore],
+        backgroundColor: ['rgba(255, 0, 158, 1)']
+      }],
+      labels : [classAvgScore + '%']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: true},
+      title: {display: true, text: 'MÉDIA GERAL', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70
+    }
+  });
+}
+
+function techMediaChart() {
+  var classTechAvgScore = document.getElementById('classTechAvgScore').textContent;
+  var techMediaChart = document.getElementById('techMediaChart').getContext('2d');
+  var thetechMediaChart = new Chart(techMediaChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [classTechAvgScore, 100 - classTechAvgScore],
+        backgroundColor: ['rgba(255, 0, 158, 1)'],
+      }],
+      labels : [classTechAvgScore + '%']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: true},
+      title: {display: true, text: 'MÉDIA TECH SKILLS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70, 
+    }
+  });
+}
+
+function softMediaChart() {
+  var classSoftAvgScore = document.getElementById('classSoftAvgScore').textContent;
+  var softMediaChart = document.getElementById('softMediaChart').getContext('2d');
+  var thesoftMediaChart = new Chart(softMediaChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [classSoftAvgScore, 100 - classSoftAvgScore],
+        backgroundColor: ['rgba(255, 0, 158, 1)'],
+      }],
+      labels : [classSoftAvgScore + '%']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: true},
+      title: {display: true, text: 'MÉDIA SOFT SKILLS', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70, 
+    }
+  });
+}
+
+function abvMediaChart() {
+  var numAboveAvg = document.getElementById('numAboveAvg').textContent;
+  var numUnderAvg = document.getElementById('numUnderAvg').textContent;
+  var abvMediaChart = document.getElementById('abvMediaChart').getContext('2d');
+  var theabvMediaChart = new Chart(abvMediaChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [numAboveAvg, numUnderAvg],
+        backgroundColor: ['rgba(86, 248, 154, 1)', 'rgba(255, 0, 158, 1)']
+      }],
+      labels : ['Acima da média','Abaixo da média']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: false},
+      title: {display: true, text: 'DESEMPENHO GERAL', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70
+    }
+  });
+}
+
+function abvTechMediaChart() {
+  var numAboveAvgTech = document.getElementById('numAboveAvgTech').textContent;
+  var numUnderAvgTech = document.getElementById('numUnderAvgTech').textContent;
+  var abvTechMediaChart = document.getElementById('abvTechMediaChart').getContext('2d');
+  var theabvTechMediaChart = new Chart(abvTechMediaChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [numAboveAvgTech, numUnderAvgTech],
+        backgroundColor: ['rgba(86, 248, 154, 1)', 'rgba(255, 0, 158, 1)']
+      }],
+      labels : ['Acima da média','Abaixo da média']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: false},
+      title: {display: true, text: 'DESEMPENHO TECH', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70
+    }
+  });
+}
+
+function abvSoftMediaChart() {
+  var numAboveAvgSoft = document.getElementById('numAboveAvgSoft').textContent;
+  var numUnderAvgSoft = document.getElementById('numUnderAvgSoft').textContent;
+  var abvSoftMediaChart = document.getElementById('abvSoftMediaChart').getContext('2d');
+  var theabvSoftMediaChart = new Chart(abvSoftMediaChart, {
+    type: 'doughnut',
+    data: {      
+      datasets: [{
+        data: [numAboveAvgSoft, numUnderAvgSoft],
+        backgroundColor: ['rgba(86, 248, 154, 1)', 'rgba(255, 0, 158, 1)']
+      }],
+      labels : ['Acima da média','Abaixo da média']
+    },
+    options: {
+      legend: {display: true, position: 'bottom', reverse: false},
+      title: {display: true, text: 'DESEMPENHO SOFT', fontColor: 'rgba(0, 0, 0, 1)', fontSize: 16, fontFamily: 'sans-serif'},
+      cutoutPercentage: 70
+    }
+  });
+}
+
+
+
+// 255, 229, 33
+// 86, 248, 154
