@@ -6,14 +6,14 @@ function loadFunctions() {
   var students = document.getElementById('students');
   var team = document.getElementById('team');
 
-  principal.style.display = 'flex';
+  principal.style.display = 'none';
   students.style.display = 'none';
   team.style.display = 'none';
 
-  // var tabs = document.getElementsByClassName('tab');
-  // for (i = 0; i < tabs.length; i++) {
-  //   tabs[i].addEventListener('click', showHideTabs);
-  // }
+  var tabs = document.getElementsByClassName('tab');
+  for (i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener('click', showHideTabs);
+  }
 
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
@@ -24,24 +24,24 @@ function loadFunctions() {
 
 //Função que mostra ou esconde o conteúdo das tabs
 function showHideTabs(e) {
-  // var selectedTab = e.target.dataset.selectedTab;
-  // var principal = document.getElementById('principal');
-  // var students = document.getElementById('students');
-  // var team = document.getElementById('team');
+  var selectedTab = e.target.dataset.selectedTab;
+  var principal = document.getElementById('principal');
+  var students = document.getElementById('students');
+  var team = document.getElementById('team');
 
-  // if (selectedTab === 'tab-principal') {
-  //   principal.style.display = 'flex';
-  //   students.style.display = 'none';
-  //   team.style.display = 'none';
-  // } else if (selectedTab === 'tab-students') {
-  //   students.style.display = 'flex';
-  //   principal.style.display = 'none';
-  //   team.style.display = 'none';
-  // } else if (selectedTab === 'tab-team') {
-  //   team.style.display = 'flex';
-  //   principal.style.display = 'none';
-  //   students.style.display = 'none';
-  // }
+  if (selectedTab === 'tab-principal') {
+    principal.style.display = 'flex';
+    students.style.display = 'none';
+    team.style.display = 'none';
+  } else if (selectedTab === 'tab-students') {
+    students.style.display = 'flex';
+    principal.style.display = 'none';
+    team.style.display = 'none';
+  } else if (selectedTab === 'tab-team') {
+    team.style.display = 'flex';
+    principal.style.display = 'none';
+    students.style.display = 'none';
+  }
 }
 
 //variáveis do menu dropdownSprint
@@ -81,6 +81,7 @@ var underAvgSum;
 var numAboveAvg;
 var numUnderAvg;
 var noPoints;
+var noPointsPercent;
 //variáveis para cálculo de média em tech skills
 var aboveAvgTech;
 var underAvgTech;
@@ -143,16 +144,26 @@ function dropdownBranch(event) {
 function loadPrincipalData() {
   dropdownClass = document.getElementById('headerClass').textContent;
   dropdownSprint = document.getElementById('headerSprint').textContent;
-  console.log(dropdownClass);
 
   if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint !== 'Sprint') {
+    document.getElementById('principal').style.display = 'flex';
+    students.style.display = 'none';
+    team.style.display = 'none';
     getSprintData();
   } else if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint === 'Sprint') {
+    document.getElementById('principal').style.display = 'flex';
+    students.style.display = 'none';
+    team.style.display = 'none';
     getClassData();
   } else if (dropdownBranch !== 'SPA' && dropdownClass === 'Turma' && dropdownSprint === 'Sprint') {
+    document.getElementById('principal').style.display = 'flex';
+    students.style.display = 'none';
+    team.style.display = 'none';
     getBranchData();
   } else {
-    document.getElementById('principal').innerHTML = '';
+    document.getElementById('principal').style.display = 'none';
+    students.style.display = 'none';
+    team.style.display = 'none';
   }
 }
 
@@ -231,6 +242,7 @@ function getBranchData() {
   sumJediScore = 0;
   sumMentorsScore = 0;
   numClasses = 0;
+  classAvgScore = 0;
 
   for (var branch in data) {
     for (var branchClass in data[branch]) {
@@ -272,6 +284,8 @@ function getBranchData() {
           //Pegando dados de avaliação da Laboratória
           promoters += rating[sp]['nps']['promoters'];
           detractors += rating[sp]['nps']['detractors'];
+          console.log(promoters);
+          console.log(detractors);
 
           sumJediScore += rating[sp]['jedi'];
           sumMentorsScore += rating[sp]['teacher'];
@@ -287,7 +301,9 @@ function getBranchData() {
   for (var branch in data) {
     for (var branchClass in data[branch]) {
       if (branch === dropdownBranch) {
+
         for (var st in data[branch][branchClass]['students']) {
+
           sumTechPointsStudent = 0;
           sumSoftPointsStudent = 0;
           studentName = data[branch][branchClass]['students'][st]['name'];
@@ -321,6 +337,10 @@ function getBranchData() {
           } else if (sumTechPointsStudent + sumSoftPointsStudent <= 2100) {
             numUnderAvg += 1;
           }
+
+          if (sumTechPointsStudent >= 0 && sumSoftPointsStudent >= 0) {
+          classAvgScore += sumTechPointsStudent + sumSoftPointsStudent;
+          }
         }
       }
     }
@@ -331,15 +351,11 @@ function getBranchData() {
     numClasses += 1;
   }
 
-  //Cálculo do número de alunas que não ponturaram na sede
-  console.log(numOfStudents);
-  console.log(sprtAttendeesSoftPts / numSprints);
-  noPoints = numOfStudents - (sprtAttendeesSoftPts / numSprints);
-
   //Cálculo da satisfação das Alunas
   happyStudents = Math.round((sumExceedsExpectations + sumMeetsExpectations) / numSprints);
 
   //Cálculo da média de NPS da TURMA
+  console.log(numSprints);
   npsScore = Math.round((promoters - detractors) / numSprints);
 
   //Cálculo da média dos Jedi MASTERS
@@ -358,20 +374,38 @@ function getBranchData() {
   //Cálculo da média de soft skills da turma
   classSoftAvgScore = Math.round(((softPointsSum / sprtAttendeesSoftPts) * 100) / 1200);
 
-  //Cálculo da média geral da turma:
-  classAvgScore = Math.round((classTechAvgScore + classSoftAvgScore) / 2);
+  //Cálculo da média de pontos da média de pontos das alunas em soft + tech skills
+  classAvgScore = Math.round(((classAvgScore / (numAboveAvg + numUnderAvg)) * 100 ) / 3000);
 
   //Cálculo de alunas acima / abaixo da média em TechSkills em porcentagem
-  aboveAvgTech = Math.round((numAboveAvgTech * 100) / ((sprtAttendeesSoftPts / numSprints) * numClasses));
-  underAvgTech = Math.round((numUnderAvgTech * 100) / ((sprtAttendeesSoftPts / numSprints) * numClasses));
+  aboveAvgTech = Math.round((numAboveAvgTech * 100) / numOfStudents);
+  underAvgTech = Math.round((numUnderAvgTech * 100) / numOfStudents);
 
   //Cálculo de alunas acima / abaixo da média em Softskills em porcentagem
-  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / ((sprtAttendeesSoftPts / numSprints) * numClasses));
-  underAvgSoft = Math.round((numUnderAvgSoft * 100) / ((sprtAttendeesSoftPts / numSprints) * numClasses));
+  aboveAvgSoft = Math.round((numAboveAvgSoft * 100) / numOfStudents);
+  underAvgSoft = Math.round((numUnderAvgSoft * 100) / numOfStudents);
 
   //Cálculo de porcentagem de alunas acima / abaixo da média
   aboveAvg = Math.round((numAboveAvg * 100) / numOfStudents);
   underAvg = Math.round((numUnderAvg * 100) / numOfStudents);
+
+  //Cálculo do número de alunas que não ponturaram na sede
+  noPoints = numOfStudents - (numAboveAvg + numUnderAvg);
+
+  //Cálculo da porcentagem de alunas que não ponturaram na sede
+  noPointsPercent = Math.round((noPoints * 100) / numOfStudents);
+
+  //Cálculo do número de alunas que não ponturaram na sede em TechSkills
+  noPointsTech = numOfStudents - (numAboveAvgTech + numUnderAvgTech);
+
+  //Cálculo da porcentagem de alunas que não ponturaram na sede em TechSkills
+  noPointsTechPercent = Math.round((noPointsTech * 100) / numOfStudents);
+
+  //Cálculo do número de alunas que não ponturaram na sede em SoftSkills
+  noPointsSoft = numOfStudents - (numAboveAvgSoft + numUnderAvgSoft);
+
+  //Cálculo da porcentagem de alunas que não ponturaram na sede em SoftSkills
+  noPointsSoftPercent = Math.round((noPointsSoft * 100) / numOfStudents);
 
   dashbTitle = dashbBranchTitle + ':';
   createMainDashboard();
@@ -666,40 +700,36 @@ function getSprintData() {
 }
 
 function createMainDashboard() {
-<<<<<<< HEAD
-  document.getElementById('numOfStudents').textContent = numOfStudents; 
-=======
+  document.getElementById('dashbTitle').textContent = dashbTitle;
   document.getElementById('numOfStudents').textContent = numOfStudents;
-  console.log(document.getElementById('numOfStudents').textContent);
-
->>>>>>> 7b7a7e91f94237f0cc36e4c77504c7b415825922
+  document.getElementById('numOfStudents').textContent = numOfStudents;
   document.getElementById('numOfActiveStudents').textContent = numOfActiveStudents;
-  document.getElementById('perctOfActiveStudents').textContent = perctOfActiveStudents;
+  document.getElementById('perctOfActiveStudents').textContent = ' (' + perctOfActiveStudents + '%)';
   document.getElementById('numOfInactiveStudents').textContent = numOfInactiveStudents;
-  document.getElementById('perctOfInactiveStudents').textContent = perctOfInactiveStudents;
-  document.getElementById('classAvgScore').textContent = classAvgScore;
+  document.getElementById('perctOfInactiveStudents').textContent = ' (' + perctOfInactiveStudents + '%)';
+  document.getElementById('classAvgScore').textContent = classAvgScore + '%';
   document.getElementById('numAboveAvg').textContent = numAboveAvg;
-  document.getElementById('aboveAvg').textContent = aboveAvg;
+  document.getElementById('aboveAvg').textContent = ' (' + aboveAvg + '%)';
   document.getElementById('numUnderAvg').textContent = numUnderAvg;
-  document.getElementById('underAvg').textContent = underAvg;
+  document.getElementById('underAvg').textContent = ' (' + underAvg + '%)';
   document.getElementById('noPoints').textContent = noPoints;
-  document.getElementById('noPointsPercent').textContent = noPointsPercent;
-  document.getElementById('classTechAvgScore').textContent = classTechAvgScore;
+  document.getElementById('noPointsPercent').textContent = ' (' + noPointsPercent + '%)';
+  document.getElementById('classTechAvgScore').textContent = classTechAvgScore + '%';
   document.getElementById('numAboveAvgTech').textContent = numAboveAvgTech;
-  document.getElementById('aboveAvgTech').textContent = aboveAvgTech;
+  document.getElementById('aboveAvgTech').textContent = ' (' + aboveAvgTech + '%)';
   document.getElementById('numUnderAvgTech').textContent = numUnderAvgTech;
-  document.getElementById('underAvgTech').textContent = underAvgTech;
+  document.getElementById('underAvgTech').textContent = ' (' + underAvgTech + '%)';
   document.getElementById('noPointsTech').textContent = noPointsTech;
-  document.getElementById('noPointsTechPercent').textContent = noPointsTechPercent;
-  document.getElementById('classSoftAvgScore').textContent = classSoftAvgScore;
+  document.getElementById('noPointsTechPercent').textContent = ' (' + noPointsTechPercent + '%)';
+  document.getElementById('classSoftAvgScore').textContent = classSoftAvgScore + '%';
   document.getElementById('numAboveAvgSoft').textContent = numAboveAvgSoft;
-  document.getElementById('aboveAvgSoft').textContent = aboveAvgSoft;
+  document.getElementById('aboveAvgSoft').textContent = ' (' + aboveAvgSoft + '%)';
   document.getElementById('numUnderAvgSoft').textContent = numUnderAvgSoft;
-  document.getElementById('underAvgSoft').textContent = underAvgSoft;
+  document.getElementById('underAvgSoft').textContent = ' (' + underAvgSoft + '%)';
   document.getElementById('noPointsSoft').textContent = noPointsSoft;
-  document.getElementById('noPointsSoftPercent').textContent = noPointsSoftPercent;
-  document.getElementById('npsScore').textContent = npsScore;
-  document.getElementById('happyStudents').textContent = happyStudents;
+  document.getElementById('noPointsSoftPercent').textContent = ' (' + noPointsSoftPercent + '%)';
+  document.getElementById('npsScore').textContent = npsScore + '%';
+  document.getElementById('happyStudents').textContent = happyStudents + '%';
   document.getElementById('jediMasterScore').textContent = jediMasterScore;
   document.getElementById('mentorsScore').textContent = mentorsScore;
 }
