@@ -131,9 +131,11 @@ function dropdownBranch(event) {
 function loadPrincipalData() {
   dropdownClass = document.getElementById('headerClass').textContent;
   dropdownSprint = document.getElementById('headerSprint').textContent;
-  document.getElementById('principal').style.display = 'flex';
-  students.style.display = 'none';
-  team.style.display = 'none';
+
+  if (students.style.display === 'none' && team.style.display === 'none') {
+    document.getElementById('principal').style.display = 'flex';
+  }
+
   if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint !== 'Sprint') {
     getSprintData();
   } else if (dropdownBranch !== 'SPA' && dropdownClass !== 'Turma' && dropdownSprint === 'Sprint') {
@@ -751,13 +753,13 @@ function validateStudentCards() {
         }
       }
     }
-  }  
+  }
 }
 // Função limpa seleção anterior de filtro nos cards das alunas
 function clearCards() {
   var studentCards = document.querySelectorAll('.studentCard');
   for(card of studentCards) {
-    card.style.display = 'flex';    
+    card.style.display = 'flex';
   }
 }
 // Função cria gráfico de alunas ativas/inativas
