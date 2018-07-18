@@ -17,6 +17,10 @@ function loadFunctions() {
   document.getElementById('selectedClass').addEventListener('click', selectClass);
   document.getElementById('selectedClass').addEventListener('click', dropdownSprint);
   document.getElementById('selectedSprint').addEventListener('click', selectSprint);
+  document.getElementById('logo').addEventListener('click', reloadPage);
+}
+function reloadPage() {
+  location.reload();
 }
 //Função que mostra ou esconde o conteúdo das tabs
 function showHideTabs(e) {
@@ -145,6 +149,8 @@ function loadPrincipalData() {
     getBranchData();
   } else {
     document.getElementById('principal').style.display = 'none';
+    document.getElementById('students').style.display = 'none';
+    document.getElementById('team').style.display = 'none';
   }
 }
 // Função retorna o menu de classes ao estado inicial vazio
