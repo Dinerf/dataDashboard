@@ -244,6 +244,7 @@ ul li#selectedBranch, ul li#selectedClass, ul li#selectedSprint {
   position: relative;
   border-radius: 10px;
   height: 40px;
+  cursor: pointer;
 }
 
 ul li#selectedClass, ul li#selectedSprint {
