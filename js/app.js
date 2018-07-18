@@ -131,7 +131,9 @@ function dropdownBranch(event) {
   document.getElementById('ulSelectedSprint').style.display = "none";
   clearClasses();
   dropdownClasses();
-  loadPrincipalData()
+  loadPrincipalData();
+  clearCards();
+  validateStudentCards();
 }
 //Observa sede/turma/sprint selecionado e chama função para pegar dados correspondentes
 function loadPrincipalData() {
@@ -174,6 +176,8 @@ function dropdownClasses() {
 // Função altera display do cabeçalho para classe selecionada
 function selectClass(event) {
   document.getElementById('headerClass').textContent = event.target.textContent;
+  clearCards();
+  validateStudentCards();
   loadPrincipalData()
 }
 // Função cria menu de sprints
@@ -652,11 +656,11 @@ function showStudentsCards() {
     if (studentOffice === 'AQP') {
       studentOffice = 'Arequipa';
     } else if (studentOffice === 'CDMX') {
-      studentOffice = 'Cidade do México';
+      studentOffice = 'Cidade do Mexico';
     } else if (studentOffice === 'LIM') {
       studentOffice = 'Lima';
     } else if (studentOffice === 'SCL') {
-      studentOffice = 'Santiago do Chile';
+      studentOffice = 'Santiago';
     }
     for (var classes in data[office]) {
       studentClass = classes;
@@ -686,6 +690,8 @@ function showStudentsCards() {
       }
     }
   }
+  clearCards();
+  validateStudentCards();
 }
 // Função cria os cards das alunas e exibe na tela
 function createStudentCard() {
@@ -706,6 +712,39 @@ function createStudentCard() {
   studentCard.setAttribute('class', 'flexRow studentCard');
   studentCard.innerHTML = template;
   document.getElementById('students').appendChild(studentCard);
+}
+// Função filtra cards das alunas
+function validateStudentCards() {
+  var studentCards = document.querySelectorAll('.studentCard');
+  var validateBranch = document.getElementById('headerBranch').textContent;
+  var validateClass = document.getElementById('headerClass').textContent;
+  if (validateBranch !== 'São Paulo') {
+    for (card of studentCards) {
+      var branch = card.getElementsByClassName('country');
+      for (i of branch) {
+        if(i.textContent !== validateBranch){
+          card.style.display = 'none';
+        }
+      }
+    }
+  }
+  if (validateClass !== 'Turma') {
+    for (card of studentCards) {
+      var classes = card.getElementsByClassName('class');
+      for (i of classes) {
+        if(i.textContent !== validateClass){
+          card.style.display = 'none';
+        }
+      }
+    }
+  }  
+}
+// Função limpa seleção anterior de filtro nos cards das alunas
+function clearCards() {
+  var studentCards = document.querySelectorAll('.studentCard');
+  for(card of studentCards) {
+    card.style.display = 'flex';    
+  }
 }
 // Função cria gráfico de alunas ativas/inativas
 function principalChart() {
