@@ -371,7 +371,7 @@ ul#dropdownBranch {
   background-color: #FFE521;
   font-size: 150%;
   font-weight: 500;
-  font-family: 'OpenSans-ExtraBold';
+  font-family: "Bitter-Regular";
   color: black;
   position: absolute;
   top: 50%;
@@ -392,6 +392,8 @@ ul#dropdownBranch {
   transform: translate(-50%, -50%);
   border-radius: 10px;
   width: 60%;
+  border: 1px solid gray;
+  padding-left: 1%;
 }
 #loginPassword {
   position: absolute;
@@ -400,14 +402,26 @@ ul#dropdownBranch {
   transform: translate(-50%, -50%);
   border-radius: 10px;
   width: 60%;
+  border: 1px solid gray;
+  padding-left: 1%;
 }
 #send {
   position: absolute;
-  top: 75%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
   width: 30%;
+  height: 20%;
+  box-shadow: none;
+  font-size: 60%;
+  border: none;
+  background-color: #FF009E;
+  color: white;
+  cursor: pointer;
+}
+button#send:hover {
+  color: black;
 }
 #lockLogo {
   position: absolute;
