@@ -14,7 +14,7 @@
       <div class="flexRow topMenu">
         <ul id="ulSelectedBranch">
           <li id="selectedBranch" class="drop title office">
-            <span id="headerBranch" class="drop title office">São Paulo</span>
+            <span id="headerBranch" class="drop title office">São Paulo</span><i class="fas fa-angle-down"></i>
             <ul id=dropdownBranch>
               <li id="aqp">Arequipa</li>
               <li id="cdmx">Cidade do Mexico</li>
@@ -26,13 +26,13 @@
         </ul>
         <ul id="ulSelectedClass">
           <li id="selectedClass" class="drop title classMenu">
-            <span id="headerClass">Turma</span>
+            <span id="headerClass">Turma</span> <i class="fas fa-angle-down"></i>
             <ul id="dropdownClass"></ul>
           </li>
         </ul>
         <ul id="ulSelectedSprint">
           <li id="selectedSprint" class="drop title classMenu">
-            <span id="headerSprint">Sprint</span>
+            <span id="headerSprint">Sprint</span> <i class="fas fa-angle-down"></i>
             <ul id="dropdownSprint"></ul>
           </li>
         </ul>
@@ -154,7 +154,11 @@
       </section>
       <section id="profileStudents">
         <div id="summaryProfile">
-          <div id="profileData"></div>
+          <div id="profileData">
+            <p id="profileName"></p>
+            <p id="profileBranch"></p>
+            <p id="profileStatus"></p>
+          </div>
           <div id="profileAddFeature"></div>
           <div id="profileFeature"></div>
         </div>

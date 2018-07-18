@@ -238,7 +238,10 @@ i.angle:hover {
   font-family: "Bitter-Regular";
 }
 
-
+li#selectedBranch {
+  white-space: nowrap;
+  padding: 0 5%;
+}
 ul li#selectedBranch, ul li#selectedClass, ul li#selectedSprint {
   display: block;
   position: relative;
