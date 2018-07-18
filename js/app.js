@@ -769,7 +769,7 @@ function principalChart() {
     type: 'doughnut',
     data: {
       datasets: [{
-        data: [numOfActiveStudents, numOfInactiveStudents],
+        data: [numOfInactiveStudents, numOfActiveStudents],
         backgroundColor: ['rgba(255, 0, 158, 1)', 'rgba(86, 248, 154, 1)']
       }],
       labels : ['Inativas','Ativas']
