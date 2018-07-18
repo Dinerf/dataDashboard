@@ -11,6 +11,7 @@ function loadFunctions() {
   for (i = 0; i < tabs.length; i++) {
     tabs[i].addEventListener('click', showHideTabs);
   }
+  document.getElementById('send').addEventListener('click', login);
   document.getElementById('tabStudents').onclick = showStudentsCards();
   document.getElementById('dropdownBranch').addEventListener('click', dropdownBranch);
   document.getElementById('selectedClass').addEventListener('click', selectClass);
@@ -985,4 +986,14 @@ function mentorsScoreChart() {
       cutoutPercentage: 70,
     }
   });
+}
+function login() {
+  var userName = document.getElementById('loginName').value;
+  var password = document.getElementById('loginPassword').value;
+  if(userName === 'vanessa' && password === 'vanessa123') {
+    document.getElementById('screenLock').style.display = "none";
+  } else {
+    alert('Nome de usuário e/ou senha incorreto. Tente novamente.');
+    alert('Ok, vai... user = vanessa / senha = vanessa123');
+  }
 }

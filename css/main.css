@@ -356,3 +356,63 @@ ul#dropdownBranch {
 #teamCharts {
   width: 100%;
 }
+
+#screenLock {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background-color: white;
+  display: block;
+}
+#login {
+  border: 1px solid black;
+  background-color: #FFE521;
+  font-size: 150%;
+  font-weight: 500;
+  font-family: 'OpenSans-ExtraBold';
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: 25%;
+  border-radius: 10px;
+  padding-top: 1%;
+}
+#login p {
+  text-align: center;
+}
+#loginName {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  width: 60%;
+}
+#loginPassword {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  width: 60%;
+}
+#send {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  width: 30%;
+}
+#lockLogo {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+}
