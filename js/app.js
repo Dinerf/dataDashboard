@@ -16,10 +16,16 @@ function loadFunctions() {
   document.getElementById('selectedClass').addEventListener('click', selectClass);
   document.getElementById('selectedClass').addEventListener('click', dropdownSprint);
   document.getElementById('selectedSprint').addEventListener('click', selectSprint);
-  document.getElementById('logo').addEventListener('click', reloadPage);
+  document.getElementById('logo').addEventListener('click', clearPage);
 }
-function reloadPage() {
-  location.reload();
+function clearPage() {
+  document.getElementById('principal').style.display = 'none';
+  document.getElementById('students').style.display = 'none';
+  document.getElementById('team').style.display = 'none';
+  clearClasses();
+  document.getElementById('headerBranch').textContent = 'São Paulo';
+  document.getElementById('ulSelectedClass').style.display = 'none';
+  document.getElementById('ulSelectedSprint').style.display = 'none';
 }
 //Função que mostra ou esconde o conteúdo das tabs
 function showHideTabs(e) {
@@ -178,7 +184,7 @@ function selectClass(event) {
   document.getElementById('headerClass').textContent = event.target.textContent;
   clearCards();
   validateStudentCards();
-  loadPrincipalData()
+  loadPrincipalData();
 }
 // Função cria menu de sprints
 function dropdownSprint(event) {
